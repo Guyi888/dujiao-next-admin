@@ -3,7 +3,7 @@ import { reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Package } from 'lucide-vue-next'
 import { adminAPI } from '@/api/admin'
-import type { AdminOrder, AdminOrderItem, AdminFulfillment, AdminProcurementOrder } from '@/api/types'
+import type { AdminOrder, AdminOrderItem, AdminFulfillment, AdminProcurementOrder, AdminPayment } from '@/api/types'
 import IdCell from '@/components/IdCell.vue'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogScrollContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -247,6 +247,32 @@ const resetRefundForm = () => {
   refundForm.remark = ''
   refundError.value = ''
   refundSuccess.value = ''
+}
+
+const formatFeeRate = (channel: AdminPayment | { fee_rate: number | string; fixed_fee?: number | string }) => {
+  const feeRate = channel.fee_rate
+  const fixedFee = channel.fixed_fee
+
+  let display = '-'
+  if (feeRate !== undefined && feeRate !== null && feeRate !== '') {
+    const rateParsed = Number(feeRate)
+    if (!Number.isNaN(rateParsed)) {
+      display = `${rateParsed.toFixed(2)}%`
+    }
+  }
+
+  if (fixedFee !== undefined && fixedFee !== null && fixedFee !== '') {
+    const fixedParsed = Number(fixedFee)
+    if (!Number.isNaN(fixedParsed) && fixedParsed > 0) {
+      if (display === '-') {
+        display = fixedParsed.toFixed(2)
+      } else {
+        display += ` + ${fixedParsed.toFixed(2)}`
+      }
+    }
+  }
+
+  return display
 }
 
 const fetchOrderDetail = async (orderId: number) => {
@@ -690,6 +716,7 @@ watch(
                     <TableHead class="px-4 py-3">{{ t('admin.payments.table.paymentId') }}</TableHead>
                     <TableHead class="px-4 py-3">{{ t('admin.payments.table.channel') }}</TableHead>
                     <TableHead class="px-4 py-3">{{ t('admin.payments.table.status') }}</TableHead>
+                    <TableHead class="px-4 py-3">{{ t('admin.payments.table.feeRate') }}</TableHead>
                     <TableHead class="px-4 py-3">{{ t('admin.payments.table.amount') }}</TableHead>
                     <TableHead class="px-4 py-3">{{ t('admin.payments.table.createdAt') }}</TableHead>
                   </TableRow>
@@ -713,6 +740,7 @@ watch(
                         {{ paymentStatusLabel(payment.status) }}
                       </span>
                     </TableCell>
+                    <TableCell class="px-4 py-3 text-xs text-muted-foreground">{{ formatFeeRate(payment) }}</TableCell>
                     <TableCell class="px-4 py-3 font-mono text-foreground">{{ formatMoney(payment.amount, payment.currency) }}</TableCell>
                     <TableCell class="px-4 py-3 text-xs text-muted-foreground">{{ formatDate(payment.created_at) }}</TableCell>
                   </TableRow>

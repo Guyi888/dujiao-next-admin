@@ -108,11 +108,30 @@ const interactionModeLabel = (value?: string) => {
   return map[value || ''] || value || '-'
 }
 
-const formatFeeRate = (value?: string | number) => {
-  if (value === undefined || value === null || value === '') return '-'
-  const parsed = Number(value)
-  if (Number.isNaN(parsed)) return '-'
-  return `${parsed.toFixed(2)}%`
+const formatFeeRate = (channel: AdminPaymentChannel) => {
+  const feeRate = channel.fee_rate
+  const fixedFee = channel.fixed_fee
+
+  let display = '-'
+  if (feeRate !== undefined && feeRate !== null && feeRate !== '') {
+    const rateParsed = Number(feeRate)
+    if (!Number.isNaN(rateParsed)) {
+      display = `${rateParsed.toFixed(2)}%`
+    }
+  }
+
+  if (fixedFee !== undefined && fixedFee !== null && fixedFee !== '') {
+    const fixedParsed = Number(fixedFee)
+    if (!Number.isNaN(fixedParsed) && fixedParsed > 0) {
+      if (display === '-') {
+        display = fixedParsed.toFixed(2)
+      } else {
+        display += ` + ${fixedParsed.toFixed(2)}`
+      }
+    }
+  }
+
+  return display
 }
 
 const openCreateModal = () => {
@@ -242,7 +261,7 @@ watch(
               <div class="text-muted-foreground">{{ channelTypeLabel(channel.channel_type) }}</div>
             </TableCell>
             <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ interactionModeLabel(channel.interaction_mode) }}</TableCell>
-            <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatFeeRate(channel.fee_rate) }}</TableCell>
+            <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatFeeRate(channel) }}</TableCell>
             <TableCell class="px-6 py-4">
               <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="channel.is_active ? 'text-emerald-700 border-emerald-200 bg-emerald-50' : 'text-muted-foreground border-border bg-muted/30'">
                 {{ channel.is_active ? t('admin.common.enabled') : t('admin.common.disabled') }}

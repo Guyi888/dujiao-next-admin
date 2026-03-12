@@ -319,6 +319,7 @@ export interface AdminPaymentChannel {
   channel_type: string
   interaction_mode: string
   fee_rate: number | string
+  fixed_fee?: number | string
   config_json: Record<string, unknown>
   is_active: boolean
   sort_order: number
@@ -337,7 +338,8 @@ export interface AdminPayment {
   interaction_mode: string
   amount: number
   payable_amount: number
-  fee_rate: number
+  fee_rate: number | string
+  fixed_fee?: number | string
   fee_amount: number
   currency: string
   status: string

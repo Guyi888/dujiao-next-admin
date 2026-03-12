@@ -195,11 +195,30 @@ const interactionModeLabel = (value?: string) => {
   return map[value] || value
 }
 
-const formatFeeRate = (value?: string | number) => {
-  if (value === undefined || value === null || value === '') return '-'
-  const parsed = Number(value)
-  if (Number.isNaN(parsed)) return '-'
-  return `${parsed.toFixed(2)}%`
+const formatFeeRate = (channel: AdminPayment | { fee_rate: number | string; fixed_fee?: number | string }) => {
+  const feeRate = channel.fee_rate
+  const fixedFee = channel.fixed_fee
+
+  let display = '-'
+  if (feeRate !== undefined && feeRate !== null && feeRate !== '') {
+    const rateParsed = Number(feeRate)
+    if (!Number.isNaN(rateParsed)) {
+      display = `${rateParsed.toFixed(2)}%`
+    }
+  }
+
+  if (fixedFee !== undefined && fixedFee !== null && fixedFee !== '') {
+    const fixedParsed = Number(fixedFee)
+    if (!Number.isNaN(fixedParsed) && fixedParsed > 0) {
+      if (display === '-') {
+        display = fixedParsed.toFixed(2)
+      } else {
+        display += ` + ${fixedParsed.toFixed(2)}`
+      }
+    }
+  }
+
+  return display
 }
 
 const formatMoney = (value: string | number | null | undefined, currency?: string) => {
@@ -388,7 +407,7 @@ watch(
               </span>
             </TableCell>
             <TableCell class="px-6 py-4 font-mono text-foreground">{{ payment.amount }} {{ payment.currency }}</TableCell>
-            <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatFeeRate(payment.fee_rate) }}</TableCell>
+            <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatFeeRate(payment) }}</TableCell>
             <TableCell class="px-6 py-4 font-mono text-foreground">{{ formatMoney(payment.fee_amount, payment.currency) }}</TableCell>
             <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatDate(payment.created_at) }}</TableCell>
             <TableCell class="px-6 py-4 text-right">
@@ -516,7 +535,7 @@ watch(
               <Card class="rounded-lg border-border bg-background shadow-none">
                 <CardContent class="p-4">
                   <div class="text-xs text-muted-foreground mb-2">{{ t('admin.payments.detailFeeRate') }}</div>
-                  <div class="text-foreground font-mono text-sm">{{ formatFeeRate(detailPayment.fee_rate) }}</div>
+                  <div class="text-foreground font-mono text-sm">{{ formatFeeRate(detailPayment) }}</div>
                 </CardContent>
               </Card>
               <Card class="rounded-lg border-border bg-background shadow-none">

@@ -31,6 +31,7 @@ const form = reactive({
   channel_type: 'alipay',
   interaction_mode: 'qr',
   fee_rate: '0',
+  fixed_fee: '0',
   config_json: '',
   is_active: true,
   sort_order: 10,
@@ -570,6 +571,7 @@ watch(
       form.channel_type = 'alipay'
       form.interaction_mode = 'qr'
       form.fee_rate = '0'
+      form.fixed_fee = '0'
       form.config_json = ''
       form.is_active = true
       form.sort_order = 10
@@ -584,6 +586,7 @@ watch(
         form.channel_type = channel.channel_type
         form.interaction_mode = channel.interaction_mode
         form.fee_rate = channel.fee_rate !== undefined && channel.fee_rate !== null ? String(channel.fee_rate) : '0'
+        form.fixed_fee = channel.fixed_fee !== undefined && channel.fixed_fee !== null ? String(channel.fixed_fee) : '0'
         form.config_json = channel.config_json ? JSON.stringify(channel.config_json, null, 2) : ''
         form.is_active = !!channel.is_active
         form.sort_order = channel.sort_order || 0
@@ -676,6 +679,7 @@ const handleSubmit = async () => {
           : form.channel_type,
     interaction_mode: form.interaction_mode,
     fee_rate: String(form.fee_rate || '0').trim(),
+    fixed_fee: String(form.fixed_fee || '0').trim(),
     config_json: configJson,
     is_active: form.is_active,
     sort_order: form.sort_order,
@@ -748,12 +752,16 @@ const closeModal = () => {
             </Select>
           </div>
           <div>
+            <label class="block text-xs font-medium text-muted-foreground mb-1.5">{{ t('admin.paymentChannels.modal.sortOrder') }}</label>
+            <Input v-model.number="form.sort_order" type="number" placeholder="10" />
+          </div>
+          <div>
             <label class="block text-xs font-medium text-muted-foreground mb-1.5">{{ t('admin.paymentChannels.modal.feeRate') }}</label>
             <Input v-model="form.fee_rate" type="number" step="0.01" min="0" max="100" :placeholder="t('admin.paymentChannels.modal.feeRatePlaceholder')" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-muted-foreground mb-1.5">{{ t('admin.paymentChannels.modal.sortOrder') }}</label>
-            <Input v-model.number="form.sort_order" type="number" placeholder="10" />
+            <label class="block text-xs font-medium text-muted-foreground mb-1.5">{{ t('admin.paymentChannels.modal.fixedFee') }}</label>
+            <Input v-model="form.fixed_fee" type="number" step="0.01" min="0" :placeholder="t('admin.paymentChannels.modal.fixedFeePlaceholder')" />
           </div>
           <div class="flex items-center gap-2 mt-6">
             <input v-model="form.is_active" type="checkbox" class="h-4 w-4 accent-primary" />
