@@ -248,18 +248,18 @@ onMounted(() => {
     </section>
 
     <section class="rounded-xl border border-border bg-card overflow-hidden overflow-x-auto">
-      <Table class="min-w-[1280px]">
+      <Table class="min-w-[1000px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-4 py-3">{{ text.table.id }}</TableHead>
-            <TableHead class="min-w-[180px] px-4 py-3">{{ text.table.operator }}</TableHead>
-            <TableHead class="min-w-[180px] px-4 py-3">{{ text.table.target }}</TableHead>
-            <TableHead class="min-w-[140px] px-4 py-3">{{ text.table.action }}</TableHead>
-            <TableHead class="min-w-[160px] px-4 py-3">{{ text.table.role }}</TableHead>
-            <TableHead class="min-w-[260px] px-4 py-3">{{ text.table.object }}</TableHead>
-            <TableHead class="min-w-[120px] px-4 py-3">{{ text.table.method }}</TableHead>
-            <TableHead class="min-w-[220px] px-4 py-3">{{ text.table.requestId }}</TableHead>
-            <TableHead class="min-w-[180px] px-4 py-3">{{ text.table.createdAt }}</TableHead>
+            <TableHead class="min-w-[100px] px-4 py-3">{{ text.table.operator }}</TableHead>
+            <TableHead class="min-w-[100px] px-4 py-3">{{ text.table.target }}</TableHead>
+            <TableHead class="min-w-[100px] px-4 py-3">{{ text.table.action }}</TableHead>
+            <TableHead class="min-w-[90px] px-4 py-3">{{ text.table.role }}</TableHead>
+            <TableHead class="min-w-[100px] px-4 py-3">{{ text.table.object }}</TableHead>
+            <TableHead class="min-w-[90px] px-4 py-3">{{ text.table.method }}</TableHead>
+            <TableHead class="min-w-[90px] px-4 py-3">{{ text.table.requestId }}</TableHead>
+            <TableHead class="min-w-[100px] px-4 py-3">{{ text.table.createdAt }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -273,19 +273,19 @@ onMounted(() => {
           </TableRow>
           <TableRow v-for="item in logs" :key="item.id" class="hover:bg-muted/30">
             <TableCell class="px-4 py-3"><IdCell :value="item.id" /></TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-xs">
+            <TableCell class="min-w-[100px] px-4 py-3 text-xs">
               <div class="break-words">#{{ item.operator_admin_id }} {{ item.operator_username || '-' }}</div>
             </TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-xs">
+            <TableCell class="min-w-[100px] px-4 py-3 text-xs">
               <span v-if="item.target_admin_id" class="break-words">#{{ item.target_admin_id }} {{ item.target_username || '-' }}</span>
               <span v-else>-</span>
             </TableCell>
-            <TableCell class="min-w-[140px] px-4 py-3 font-medium break-words">{{ item.action }}</TableCell>
-            <TableCell class="min-w-[160px] px-4 py-3 text-xs break-words">{{ item.role || '-' }}</TableCell>
-            <TableCell class="min-w-[260px] px-4 py-3 font-mono text-xs text-muted-foreground break-all">{{ item.object || '-' }}</TableCell>
-            <TableCell class="min-w-[120px] px-4 py-3">{{ item.method || '-' }}</TableCell>
-            <TableCell class="min-w-[220px] px-4 py-3 font-mono text-xs text-muted-foreground break-all">{{ item.request_id || '-' }}</TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground">{{ formatDate(item.created_at) }}</TableCell>
+            <TableCell class="min-w-[100px] px-4 py-3 font-medium break-words">{{ item.action }}</TableCell>
+            <TableCell class="min-w-[90px] px-4 py-3 text-xs break-words">{{ item.role || '-' }}</TableCell>
+            <TableCell class="min-w-[100px] px-4 py-3 font-mono text-xs text-muted-foreground break-all">{{ item.object || '-' }}</TableCell>
+            <TableCell class="min-w-[90px] px-4 py-3">{{ item.method || '-' }}</TableCell>
+            <TableCell class="min-w-[90px] px-4 py-3 font-mono text-xs text-muted-foreground break-all">{{ item.request_id || '-' }}</TableCell>
+            <TableCell class="min-w-[100px] px-4 py-3 text-xs text-muted-foreground">{{ formatDate(item.created_at) }}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

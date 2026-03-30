@@ -309,19 +309,19 @@ onMounted(() => {
 
     <!-- Table -->
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1220px]">
+      <Table class="min-w-[960px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
-            <TableHead class="min-w-[100px] px-6 py-3">{{ t('reconciliation.columns.id') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('reconciliation.columns.connection') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('reconciliation.columns.type') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('reconciliation.columns.status') }}</TableHead>
-            <TableHead class="min-w-[240px] px-6 py-3">{{ t('reconciliation.columns.timeRange') }}</TableHead>
-            <TableHead class="min-w-[100px] px-6 py-3">{{ t('reconciliation.columns.total') }}</TableHead>
-            <TableHead class="min-w-[100px] px-6 py-3">{{ t('reconciliation.columns.matched') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('reconciliation.columns.mismatched') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('reconciliation.columns.createdAt') }}</TableHead>
-            <TableHead class="min-w-[140px] px-6 py-3 text-right">{{ t('reconciliation.columns.actions') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('reconciliation.columns.id') }}</TableHead>
+            <TableHead class="min-w-[160px] px-6 py-3">{{ t('reconciliation.columns.connection') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('reconciliation.columns.type') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('reconciliation.columns.status') }}</TableHead>
+            <TableHead class="min-w-[160px] px-6 py-3">{{ t('reconciliation.columns.timeRange') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('reconciliation.columns.total') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('reconciliation.columns.matched') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('reconciliation.columns.mismatched') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('reconciliation.columns.createdAt') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3 text-right">{{ t('reconciliation.columns.actions') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -339,16 +339,16 @@ onMounted(() => {
             class="cursor-pointer hover:bg-muted/30"
             @click="openDetail(job)"
           >
-            <TableCell class="min-w-[100px] px-6 py-4">
+            <TableCell class="min-w-[80px] px-6 py-4">
               <IdCell :value="job.id" />
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 font-medium text-foreground break-words">
+            <TableCell class="min-w-[160px] px-6 py-4 font-medium text-foreground break-words">
               {{ (job.connection as any)?.name || job.connection_id || '-' }}
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <span class="text-xs">{{ t('reconciliation.type.' + job.type) }}</span>
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <span
                 class="inline-flex rounded-full border px-2.5 py-1 text-xs"
                 :class="statusBadgeClass(job.status)"
@@ -356,18 +356,18 @@ onMounted(() => {
                 {{ t('reconciliation.status.' + job.status) }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[240px] px-6 py-4 text-xs text-muted-foreground break-words">
+            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground break-words">
               {{ formatTime(job.time_range_start) }} ~ {{ formatTime(job.time_range_end) }}
             </TableCell>
-            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">{{ job.total_count }}</TableCell>
-            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-emerald-600">{{ job.matched_count }}</TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-xs" :class="(job.mismatched_count as number) > 0 ? 'text-red-600 font-semibold' : 'text-muted-foreground'">
+            <TableCell class="min-w-[80px] px-6 py-4 text-xs text-muted-foreground">{{ job.total_count }}</TableCell>
+            <TableCell class="min-w-[80px] px-6 py-4 text-xs text-emerald-600">{{ job.matched_count }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs" :class="(job.mismatched_count as number) > 0 ? 'text-red-600 font-semibold' : 'text-muted-foreground'">
               {{ job.mismatched_count }}
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[80px] px-6 py-4 text-xs text-muted-foreground">
               {{ formatTime(job.created_at) }}
             </TableCell>
-            <TableCell class="min-w-[140px] px-6 py-4 text-right" @click.stop>
+            <TableCell class="min-w-[80px] px-6 py-4 text-right" @click.stop>
               <Button size="sm" variant="outline" @click="openDetail(job)">
                 {{ t('reconciliation.detail.title') }}
               </Button>
@@ -511,25 +511,25 @@ onMounted(() => {
           <div v-if="detailItems.length > 0" class="mt-6">
             <h3 class="mb-3 text-sm font-semibold">{{ t('reconciliation.items.title') }} ({{ detailItemsTotal }})</h3>
             <div class="rounded-lg border border-border overflow-x-auto">
-              <Table class="min-w-[1040px]">
+              <Table class="min-w-[840px]">
                 <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
                   <TableRow>
-                    <TableHead class="min-w-[180px] px-4 py-2">{{ t('reconciliation.items.localOrderNo') }}</TableHead>
-                    <TableHead class="min-w-[220px] px-4 py-2">{{ t('reconciliation.items.upstreamOrderNo') }}</TableHead>
-                    <TableHead class="min-w-[120px] px-4 py-2">{{ t('reconciliation.items.localStatus') }}</TableHead>
-                    <TableHead class="min-w-[140px] px-4 py-2">{{ t('reconciliation.items.upstreamStatus') }}</TableHead>
-                    <TableHead class="min-w-[140px] px-4 py-2">{{ t('reconciliation.items.mismatchType') }}</TableHead>
-                    <TableHead class="min-w-[120px] px-4 py-2">{{ t('reconciliation.columns.status') }}</TableHead>
-                    <TableHead class="min-w-[140px] px-4 py-2 text-right">{{ t('reconciliation.columns.actions') }}</TableHead>
+                    <TableHead class="min-w-[80px] px-4 py-2">{{ t('reconciliation.items.localOrderNo') }}</TableHead>
+                    <TableHead class="min-w-[160px] px-4 py-2">{{ t('reconciliation.items.upstreamOrderNo') }}</TableHead>
+                    <TableHead class="min-w-[90px] px-4 py-2">{{ t('reconciliation.items.localStatus') }}</TableHead>
+                    <TableHead class="min-w-[80px] px-4 py-2">{{ t('reconciliation.items.upstreamStatus') }}</TableHead>
+                    <TableHead class="min-w-[80px] px-4 py-2">{{ t('reconciliation.items.mismatchType') }}</TableHead>
+                    <TableHead class="min-w-[90px] px-4 py-2">{{ t('reconciliation.columns.status') }}</TableHead>
+                    <TableHead class="min-w-[80px] px-4 py-2 text-right">{{ t('reconciliation.columns.actions') }}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody class="divide-y divide-border">
                   <TableRow v-for="item in detailItems" :key="item.id">
-                    <TableCell class="min-w-[180px] px-4 py-3 text-xs font-mono break-all">{{ item.local_order_no || '-' }}</TableCell>
-                    <TableCell class="min-w-[220px] px-4 py-3 text-xs font-mono break-all">{{ item.upstream_order_no || '-' }}</TableCell>
-                    <TableCell class="min-w-[120px] px-4 py-3 text-xs break-words">{{ item.local_status || '-' }}</TableCell>
-                    <TableCell class="min-w-[140px] px-4 py-3 text-xs break-words">{{ item.upstream_status || '-' }}</TableCell>
-                    <TableCell class="min-w-[140px] px-4 py-3">
+                    <TableCell class="min-w-[80px] px-4 py-3 text-xs font-mono break-all">{{ item.local_order_no || '-' }}</TableCell>
+                    <TableCell class="min-w-[160px] px-4 py-3 text-xs font-mono break-all">{{ item.upstream_order_no || '-' }}</TableCell>
+                    <TableCell class="min-w-[90px] px-4 py-3 text-xs break-words">{{ item.local_status || '-' }}</TableCell>
+                    <TableCell class="min-w-[80px] px-4 py-3 text-xs break-words">{{ item.upstream_status || '-' }}</TableCell>
+                    <TableCell class="min-w-[80px] px-4 py-3">
                       <span
                         class="inline-flex rounded-full border px-2 py-0.5 text-xs"
                         :class="mismatchBadgeClass(item.mismatch_type as string)"
@@ -537,7 +537,7 @@ onMounted(() => {
                         {{ t('reconciliation.mismatchType.' + item.mismatch_type) }}
                       </span>
                     </TableCell>
-                    <TableCell class="min-w-[120px] px-4 py-3">
+                    <TableCell class="min-w-[90px] px-4 py-3">
                       <span
                         class="inline-flex rounded-full border px-2 py-0.5 text-xs"
                         :class="item.resolved ? 'text-emerald-700 border-emerald-200 bg-emerald-50' : 'text-yellow-700 border-yellow-200 bg-yellow-50'"
@@ -545,7 +545,7 @@ onMounted(() => {
                         {{ item.resolved ? t('reconciliation.items.resolved') : t('reconciliation.items.unresolved') }}
                       </span>
                     </TableCell>
-                    <TableCell class="min-w-[140px] px-4 py-3 text-right">
+                    <TableCell class="min-w-[80px] px-4 py-3 text-right">
                       <Button
                         v-if="!item.resolved"
                         size="sm"

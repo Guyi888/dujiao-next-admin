@@ -173,19 +173,19 @@ onMounted(() => {
           <Button variant="outline" size="sm" class="w-full sm:w-auto" @click="resetFilters">{{ t('telegramBot.broadcasts.resetFilters') }}</Button>
         </div>
         <div class="overflow-x-auto">
-          <Table class="min-w-[1160px]">
+          <Table class="min-w-[920px]">
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>
-                <TableHead class="min-w-[280px]">{{ t('telegramBot.broadcasts.tableTitle') }}</TableHead>
-                <TableHead class="min-w-[140px]">{{ t('telegramBot.broadcasts.tableRecipientType') }}</TableHead>
-                <TableHead class="min-w-[140px]">{{ t('telegramBot.broadcasts.tableStatus') }}</TableHead>
+                <TableHead class="min-w-[200px]">{{ t('telegramBot.broadcasts.tableTitle') }}</TableHead>
+                <TableHead class="min-w-[100px]">{{ t('telegramBot.broadcasts.tableRecipientType') }}</TableHead>
+                <TableHead class="min-w-[100px]">{{ t('telegramBot.broadcasts.tableStatus') }}</TableHead>
                 <TableHead>{{ t('telegramBot.broadcasts.tableRecipientCount') }}</TableHead>
                 <TableHead>{{ t('telegramBot.broadcasts.tableSuccessCount') }}</TableHead>
                 <TableHead>{{ t('telegramBot.broadcasts.tableFailedCount') }}</TableHead>
-                <TableHead class="min-w-[180px]">{{ t('telegramBot.broadcasts.tableCreatedAt') }}</TableHead>
-                <TableHead class="min-w-[180px]">{{ t('telegramBot.broadcasts.tableCompletedAt') }}</TableHead>
-                <TableHead class="min-w-[180px] text-right">{{ t('telegramBot.broadcasts.tableActions') }}</TableHead>
+                <TableHead class="min-w-[100px]">{{ t('telegramBot.broadcasts.tableCreatedAt') }}</TableHead>
+                <TableHead class="min-w-[100px]">{{ t('telegramBot.broadcasts.tableCompletedAt') }}</TableHead>
+                <TableHead class="min-w-[100px] text-right">{{ t('telegramBot.broadcasts.tableActions') }}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -201,20 +201,20 @@ onMounted(() => {
               </TableRow>
               <TableRow v-for="item in items" :key="item.id">
                 <TableCell>{{ item.id }}</TableCell>
-                <TableCell class="min-w-[280px]">
+                <TableCell class="min-w-[200px]">
                   <div class="space-y-1">
                     <div class="break-words font-medium">{{ item.title }}</div>
                     <div v-if="item.last_error" class="break-words text-xs text-destructive">{{ item.last_error }}</div>
                   </div>
                 </TableCell>
-                <TableCell class="min-w-[140px]">{{ formatRecipientType(item.recipient_type) }}</TableCell>
-                <TableCell class="min-w-[140px]">{{ formatStatus(item.status) }}</TableCell>
+                <TableCell class="min-w-[100px]">{{ formatRecipientType(item.recipient_type) }}</TableCell>
+                <TableCell class="min-w-[100px]">{{ formatStatus(item.status) }}</TableCell>
                 <TableCell>{{ item.recipient_count }}</TableCell>
                 <TableCell>{{ item.success_count }}</TableCell>
                 <TableCell>{{ item.failed_count }}</TableCell>
-                <TableCell class="min-w-[180px]">{{ formatDate(item.created_at) || '-' }}</TableCell>
-                <TableCell class="min-w-[180px]">{{ formatDate(item.completed_at || '') || '-' }}</TableCell>
-                <TableCell class="min-w-[180px] text-right">
+                <TableCell class="min-w-[100px]">{{ formatDate(item.created_at) || '-' }}</TableCell>
+                <TableCell class="min-w-[100px]">{{ formatDate(item.completed_at || '') || '-' }}</TableCell>
+                <TableCell class="min-w-[100px] text-right">
                   <Button
                     variant="destructive"
                     size="sm"

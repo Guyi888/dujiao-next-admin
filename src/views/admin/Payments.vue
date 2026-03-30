@@ -346,18 +346,18 @@ watch(
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1120px]">
+      <Table class="min-w-[900px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">{{ t('admin.payments.table.paymentId') }}</TableHead>
-            <TableHead class="px-6 py-3 min-w-[220px]">{{ t('admin.payments.table.orderId') }}</TableHead>
-            <TableHead class="px-6 py-3 min-w-[260px]">{{ t('admin.payments.table.channel') }}</TableHead>
+            <TableHead class="px-6 py-3 min-w-[160px]">{{ t('admin.payments.table.orderId') }}</TableHead>
+            <TableHead class="px-6 py-3 min-w-[180px]">{{ t('admin.payments.table.channel') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.payments.table.status') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.payments.table.amount') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.payments.table.feeRate') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.payments.table.feeAmount') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.payments.table.createdAt') }}</TableHead>
-            <TableHead class="px-6 py-3 min-w-[120px] text-right">{{ t('admin.payments.table.action') }}</TableHead>
+            <TableHead class="px-6 py-3 min-w-[90px] text-right">{{ t('admin.payments.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -373,7 +373,7 @@ watch(
             <TableCell class="px-6 py-4">
               <IdCell :value="payment.id" />
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-foreground">
+            <TableCell class="min-w-[160px] px-6 py-4 text-foreground">
               <a v-if="payment.order_id" :href="orderLink(payment.order_id)" target="_blank" rel="noopener" class="text-primary underline-offset-4 hover:underline">
                 #{{ payment.order_id }}
               </a>
@@ -390,7 +390,7 @@ watch(
                 {{ t('admin.payments.rechargeStatus') }}: {{ statusLabel(payment.recharge_status) }}
               </div>
             </TableCell>
-            <TableCell class="min-w-[260px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">
               <div class="break-words text-foreground">{{ payment.channel_name || '-' }}</div>
               <div class="break-words text-muted-foreground">{{ providerTypeLabel(payment.provider_type) }} / {{ channelTypeLabel(payment.channel_type) }}</div>
               <div class="text-muted-foreground mt-0.5">
@@ -410,7 +410,7 @@ watch(
             <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatFeeRate(payment) }}</TableCell>
             <TableCell class="px-6 py-4 font-mono text-foreground">{{ formatMoney(payment.fee_amount, payment.currency) }}</TableCell>
             <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatDate(payment.created_at) }}</TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-right">
+            <TableCell class="min-w-[90px] px-6 py-4 text-right">
               <Button size="sm" variant="outline" @click="openDetail(payment)">
                 {{ t('admin.payments.view') }}
               </Button>

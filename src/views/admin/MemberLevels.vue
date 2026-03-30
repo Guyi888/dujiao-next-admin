@@ -211,20 +211,20 @@ onMounted(() => {
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1180px]">
+      <Table class="min-w-[940px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
-            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.memberLevels.table.id') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('admin.memberLevels.table.id') }}</TableHead>
             <TableHead class="min-w-[88px] px-6 py-3">{{ t('admin.memberLevels.table.icon') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.memberLevels.table.name') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.memberLevels.table.slug') }}</TableHead>
-            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.memberLevels.table.discountRate') }}</TableHead>
-            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.memberLevels.table.rechargeThreshold') }}</TableHead>
-            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.memberLevels.table.spendThreshold') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.memberLevels.table.sortOrder') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.memberLevels.table.isActive') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.memberLevels.table.createdAt') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3 text-right">{{ t('admin.memberLevels.table.action') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.memberLevels.table.name') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('admin.memberLevels.table.slug') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('admin.memberLevels.table.discountRate') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.memberLevels.table.rechargeThreshold') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.memberLevels.table.spendThreshold') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.memberLevels.table.sortOrder') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.memberLevels.table.isActive') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('admin.memberLevels.table.createdAt') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3 text-right">{{ t('admin.memberLevels.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -239,13 +239,13 @@ onMounted(() => {
             </TableCell>
           </TableRow>
           <TableRow v-for="level in levels" :key="level.id" class="hover:bg-muted/30">
-            <TableCell class="min-w-[100px] px-6 py-4">
+            <TableCell class="min-w-[80px] px-6 py-4">
               <IdCell :value="level.id" />
             </TableCell>
             <TableCell class="min-w-[88px] px-6 py-4 text-lg">
               {{ level.icon || '-' }}
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-foreground font-medium">
+            <TableCell class="min-w-[90px] px-6 py-4 text-foreground font-medium">
               <div class="flex items-center gap-2">
                 <span class="break-words">{{ getLocalizedText(level.name) }}</span>
                 <span
@@ -256,22 +256,22 @@ onMounted(() => {
                 </span>
               </div>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground font-mono break-all">
+            <TableCell class="min-w-[80px] px-6 py-4 text-xs text-muted-foreground font-mono break-all">
               {{ level.slug }}
             </TableCell>
-            <TableCell class="min-w-[140px] px-6 py-4 text-foreground font-mono">
+            <TableCell class="min-w-[80px] px-6 py-4 text-foreground font-mono">
               {{ level.discount_rate }}%
             </TableCell>
-            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground font-mono">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground font-mono">
               {{ Number(level.recharge_threshold) || '-' }}
             </TableCell>
-            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground font-mono">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground font-mono">
               {{ Number(level.spend_threshold) || '-' }}
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground">
               {{ level.sort_order }}
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <span
                 class="inline-flex rounded-full border px-2.5 py-1 text-xs"
                 :class="level.is_active
@@ -281,10 +281,10 @@ onMounted(() => {
                 {{ level.is_active ? t('admin.memberLevels.status.active') : t('admin.memberLevels.status.inactive') }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[80px] px-6 py-4 text-xs text-muted-foreground">
               {{ formatDate(level.created_at) }}
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-right">
+            <TableCell class="min-w-[80px] px-6 py-4 text-right">
               <div class="flex flex-wrap items-center justify-end gap-2">
                 <Button size="sm" variant="outline" @click="openEditModal(level)">{{ t('admin.common.edit') }}</Button>
                 <Button size="sm" variant="destructive" @click="handleDelete(level)">{{ t('admin.common.delete') }}</Button>

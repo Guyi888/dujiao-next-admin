@@ -375,17 +375,17 @@ watch(
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1120px]">
+      <Table class="min-w-[900px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">{{ t('admin.banners.table.id') }}</TableHead>
-            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.banners.table.image') }}</TableHead>
-            <TableHead class="min-w-[260px] px-6 py-3">{{ t('admin.banners.table.name') }}</TableHead>
-            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.banners.table.position') }}</TableHead>
-            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.banners.table.linkType') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.banners.table.image') }}</TableHead>
+            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.banners.table.name') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.banners.table.position') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.banners.table.linkType') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.banners.table.sort') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.banners.table.status') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3 text-right">{{ t('admin.banners.table.action') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.banners.table.status') }}</TableHead>
+            <TableHead class="min-w-[140px] px-6 py-3 text-right">{{ t('admin.banners.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -401,22 +401,22 @@ watch(
             <TableCell class="px-6 py-4">
               <IdCell :value="banner.id" />
             </TableCell>
-            <TableCell class="min-w-[160px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <img v-if="banner.image" :src="getImageUrl(banner.image)" class="h-14 w-28 shrink-0 rounded object-cover" />
             </TableCell>
-            <TableCell class="min-w-[260px] px-6 py-4">
+            <TableCell class="min-w-[140px] px-6 py-4">
               <div class="break-words font-medium text-foreground">{{ banner.name }}</div>
               <div class="break-words text-xs text-muted-foreground">{{ getLocalizedText(banner.title) }}</div>
             </TableCell>
-            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground break-words">{{ getPositionLabel(banner.position) }}</TableCell>
-            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground break-words">{{ getLinkTypeLabel(banner.link_type) }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground break-words">{{ getPositionLabel(banner.position) }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground break-words">{{ getLinkTypeLabel(banner.link_type) }}</TableCell>
             <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ banner.sort_order || 0 }}</TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="banner.is_active ? 'text-emerald-700 border-emerald-200 bg-emerald-50' : 'text-muted-foreground border-border bg-muted/30'">
                 {{ banner.is_active ? t('admin.common.enabled') : t('admin.common.disabled') }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-right">
+            <TableCell class="min-w-[140px] px-6 py-4 text-right">
               <div class="flex flex-wrap items-center justify-end gap-2">
                 <Button size="sm" variant="outline" @click="openEditModal(banner)">{{ t('admin.banners.actions.edit') }}</Button>
                 <Button size="sm" variant="destructive" @click="handleDelete(banner)">{{ t('admin.banners.actions.delete') }}</Button>

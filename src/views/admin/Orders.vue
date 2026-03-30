@@ -321,19 +321,19 @@ watch(
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto relative">
-      <Table class="min-w-[1100px]">
+      <Table class="min-w-[880px]">
         <TableHeader class="bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-4 py-3">{{ t('admin.orders.table.id') }}</TableHead>
-            <TableHead class="px-4 py-3 min-w-[180px]">{{ t('admin.orders.table.orderNo') }}</TableHead>
-            <TableHead class="px-4 py-3 min-w-[200px]">{{ t('admin.orders.table.items') }}</TableHead>
-            <TableHead class="px-4 py-3 min-w-[180px]">{{ t('admin.orders.table.user') }}</TableHead>
+            <TableHead class="px-4 py-3 min-w-[140px]">{{ t('admin.orders.table.orderNo') }}</TableHead>
+            <TableHead class="px-4 py-3 min-w-[140px]">{{ t('admin.orders.table.items') }}</TableHead>
+            <TableHead class="px-4 py-3 min-w-[140px]">{{ t('admin.orders.table.user') }}</TableHead>
             <TableHead class="px-4 py-3 hidden xl:table-cell">{{ t('admin.orders.table.ip') }}</TableHead>
             <TableHead class="px-4 py-3">{{ t('admin.orders.table.amount') }}</TableHead>
             <TableHead class="px-4 py-3">{{ t('admin.orders.table.status') }}</TableHead>
             <TableHead class="px-4 py-3">{{ t('admin.orders.table.createdAt') }}</TableHead>
             <TableHead class="px-4 py-3">{{ t('admin.orders.table.updatedAt') }}</TableHead>
-            <TableHead class="px-4 py-3 min-w-[200px] text-right sticky right-0 bg-muted/40 z-10">{{ t('admin.orders.table.action') }}</TableHead>
+            <TableHead class="px-4 py-3 min-w-[140px] text-right sticky right-0 bg-muted/40 z-10">{{ t('admin.orders.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -349,7 +349,7 @@ watch(
             <TableCell class="px-4 py-3">
               <IdCell :value="order.id" />
             </TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3">
+            <TableCell class="min-w-[140px] px-4 py-3">
               <div class="flex items-center gap-1.5">
                 <span class="break-all font-medium text-foreground text-xs">{{ order.order_no }}</span>
                 <button type="button" class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-border/60 text-muted-foreground hover:text-foreground hover:border-border" :title="t('admin.common.copy')" @click="handleCopyOrderNo(order.order_no)">
@@ -357,7 +357,7 @@ watch(
                 </button>
               </div>
             </TableCell>
-            <TableCell class="min-w-[200px] px-4 py-3">
+            <TableCell class="min-w-[140px] px-4 py-3">
               <div v-if="order.items && order.items.length > 0" class="space-y-1">
                 <div v-for="item in order.items" :key="item.id" class="text-xs">
                   <span class="text-foreground">{{ getLocalizedText(item.product_title) || getLocalizedText(item.title) || '-' }}</span>
@@ -369,7 +369,7 @@ watch(
               </div>
               <span v-else class="text-xs text-muted-foreground">-</span>
             </TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground">
+            <TableCell class="min-w-[140px] px-4 py-3 text-xs text-muted-foreground">
               <div v-if="order.user_id">
                 <div class="break-words text-foreground">{{ order.user_display_name || '-' }}</div>
                 <div class="break-all text-muted-foreground">{{ order.user_email || '-' }}</div>
@@ -390,7 +390,7 @@ watch(
             </TableCell>
             <TableCell class="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">{{ formatDate(order.created_at) }}</TableCell>
             <TableCell class="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">{{ formatDate(order.updated_at) }}</TableCell>
-            <TableCell class="min-w-[200px] px-4 py-3 sticky right-0 bg-card z-10">
+            <TableCell class="min-w-[140px] px-4 py-3 sticky right-0 bg-card z-10">
               <div class="flex flex-wrap items-center justify-end gap-1.5">
                 <Select v-if="canUpdateStatus(order)" v-model="statusEdits[order.id]">
                   <SelectTrigger class="h-7 w-[130px] text-xs">

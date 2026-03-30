@@ -464,17 +464,17 @@ onMounted(async () => {
       </div>
 
       <div class="mt-6 overflow-x-auto rounded-xl border border-border">
-        <Table class="min-w-[1180px]">
+        <Table class="min-w-[940px]">
           <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
             <TableRow>
-              <TableHead class="min-w-[180px] px-4 py-3">{{ t('admin.settings.notification.logs.table.createdAt') }}</TableHead>
-              <TableHead class="min-w-[160px] px-4 py-3">{{ t('admin.settings.notification.logs.table.scene') }}</TableHead>
-              <TableHead class="min-w-[140px] px-4 py-3">{{ t('admin.settings.notification.logs.table.channel') }}</TableHead>
-              <TableHead class="min-w-[220px] px-4 py-3">{{ t('admin.settings.notification.logs.table.recipient') }}</TableHead>
-              <TableHead class="min-w-[120px] px-4 py-3">{{ t('admin.settings.notification.logs.table.type') }}</TableHead>
-              <TableHead class="min-w-[120px] px-4 py-3">{{ t('admin.settings.notification.logs.table.status') }}</TableHead>
-              <TableHead class="min-w-[240px] px-4 py-3">{{ t('admin.settings.notification.logs.table.content') }}</TableHead>
-              <TableHead class="min-w-[240px] px-4 py-3">{{ t('admin.settings.notification.logs.table.error') }}</TableHead>
+              <TableHead class="min-w-[100px] px-4 py-3">{{ t('admin.settings.notification.logs.table.createdAt') }}</TableHead>
+              <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.settings.notification.logs.table.scene') }}</TableHead>
+              <TableHead class="min-w-[100px] px-4 py-3">{{ t('admin.settings.notification.logs.table.channel') }}</TableHead>
+              <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.settings.notification.logs.table.recipient') }}</TableHead>
+              <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.settings.notification.logs.table.type') }}</TableHead>
+              <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.settings.notification.logs.table.status') }}</TableHead>
+              <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.settings.notification.logs.table.content') }}</TableHead>
+              <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.settings.notification.logs.table.error') }}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody class="divide-y divide-border">

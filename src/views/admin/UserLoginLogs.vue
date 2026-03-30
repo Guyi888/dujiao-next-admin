@@ -196,16 +196,16 @@ onMounted(() => {
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1040px]">
+      <Table class="min-w-[840px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">{{ t('admin.userLoginLogs.table.id') }}</TableHead>
-            <TableHead class="min-w-[260px] px-6 py-3">{{ t('admin.userLoginLogs.table.user') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.userLoginLogs.table.status') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.userLoginLogs.table.failReason') }}</TableHead>
-            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.userLoginLogs.table.clientIp') }}</TableHead>
-            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.userLoginLogs.table.loginSource') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.userLoginLogs.table.createdAt') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.userLoginLogs.table.user') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.userLoginLogs.table.status') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.userLoginLogs.table.failReason') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.userLoginLogs.table.clientIp') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.userLoginLogs.table.loginSource') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.userLoginLogs.table.createdAt') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -219,7 +219,7 @@ onMounted(() => {
           </TableRow>
           <TableRow v-for="item in logs" :key="item.id" class="hover:bg-muted/30">
             <TableCell class="px-6 py-4"><IdCell :value="item.id" /></TableCell>
-            <TableCell class="min-w-[260px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">
               <div>
                 {{ t('admin.userLoginLogs.userIdLabel') }}:
                 <a v-if="item.user_id" :href="userDetailLink(item.user_id)" target="_blank" rel="noopener" class="text-primary underline-offset-4 hover:underline">
@@ -229,15 +229,15 @@ onMounted(() => {
               </div>
               <div class="mt-1 break-all text-foreground">{{ item.email || '-' }}</div>
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="statusClass(item.status)">
                 {{ statusLabel(item.status) }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">{{ failReasonLabel(item.fail_reason) }}</TableCell>
-            <TableCell class="min-w-[140px] px-6 py-4 font-mono text-xs text-foreground break-all">{{ item.client_ip || '-' }}</TableCell>
-            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-muted-foreground break-words">{{ item.login_source || '-' }}</TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.created_at) }}</TableCell>
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">{{ failReasonLabel(item.fail_reason) }}</TableCell>
+            <TableCell class="min-w-[100px] px-6 py-4 font-mono text-xs text-foreground break-all">{{ item.client_ip || '-' }}</TableCell>
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground break-words">{{ item.login_source || '-' }}</TableCell>
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.created_at) }}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

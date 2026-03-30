@@ -492,18 +492,18 @@ watch(
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1120px]">
+      <Table class="min-w-[900px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">{{ t('admin.promotions.table.id') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.promotions.table.name') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.promotions.table.type') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.promotions.table.value') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.promotions.table.scope') }}</TableHead>
-            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.promotions.table.minAmount') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.promotions.table.period') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.promotions.table.status') }}</TableHead>
-            <TableHead class="min-w-[160px] px-6 py-3 text-right">{{ t('admin.promotions.table.action') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.promotions.table.name') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.promotions.table.type') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.promotions.table.value') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.promotions.table.scope') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.promotions.table.minAmount') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.promotions.table.period') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.promotions.table.status') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3 text-right">{{ t('admin.promotions.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -519,20 +519,20 @@ watch(
             <TableCell class="px-6 py-4">
               <IdCell :value="promo.id" />
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <div class="break-words font-medium text-foreground">{{ promo.name }}</div>
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-xs text-muted-foreground">{{ discountTypeLabel(promo.type) }}</TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-foreground font-mono">{{ promo.value }}</TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground">{{ discountTypeLabel(promo.type) }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-foreground font-mono">{{ promo.value }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground">
               <div class="break-words">{{ formatPromotionScope(promo.scope_ref_id) }}</div>
             </TableCell>
-            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-muted-foreground">{{ promo.min_amount || '-' }}</TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">{{ promo.min_amount || '-' }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground">
               <div class="break-words">{{ t('admin.promotions.period.startsAt') }}：{{ formatDate(promo.starts_at) || '-' }}</div>
               <div class="break-words">{{ t('admin.promotions.period.endsAt') }}：{{ formatDate(promo.ends_at) || '-' }}</div>
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <span
                 class="inline-flex rounded-full border px-2.5 py-1 text-xs"
                 :class="promo.is_active ? 'text-emerald-700 border-emerald-200 bg-emerald-50' : 'text-muted-foreground border-border bg-muted/30'"
@@ -540,7 +540,7 @@ watch(
                 {{ promo.is_active ? t('admin.common.enabled') : t('admin.common.disabled') }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[160px] px-6 py-4 text-right">
+            <TableCell class="min-w-[90px] px-6 py-4 text-right">
               <div class="flex items-center justify-end gap-2">
                 <Button size="sm" variant="outline" @click="openEditModal(promo)">{{ t('admin.promotions.actions.edit') }}</Button>
                 <Button size="sm" variant="destructive" @click="handleDelete(promo)">{{ t('admin.promotions.actions.delete') }}</Button>

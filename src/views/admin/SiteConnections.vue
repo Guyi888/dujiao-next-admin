@@ -282,17 +282,17 @@ onMounted(() => {
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1120px]">
+      <Table class="min-w-[900px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">{{ t('siteConnections.columns.id') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('siteConnections.columns.name') }}</TableHead>
-            <TableHead class="min-w-[280px] px-6 py-3">{{ t('siteConnections.columns.baseUrl') }}</TableHead>
-            <TableHead class="min-w-[140px] px-6 py-3">{{ t('siteConnections.columns.protocol') }}</TableHead>
-            <TableHead class="min-w-[100px] px-6 py-3">{{ t('siteConnections.columns.markup') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('siteConnections.columns.status') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('siteConnections.columns.lastPing') }}</TableHead>
-            <TableHead class="min-w-[280px] px-6 py-3 text-right">{{ t('siteConnections.columns.actions') }}</TableHead>
+            <TableHead class="min-w-[160px] px-6 py-3">{{ t('siteConnections.columns.name') }}</TableHead>
+            <TableHead class="min-w-[200px] px-6 py-3">{{ t('siteConnections.columns.baseUrl') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('siteConnections.columns.protocol') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('siteConnections.columns.markup') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('siteConnections.columns.status') }}</TableHead>
+            <TableHead class="min-w-[80px] px-6 py-3">{{ t('siteConnections.columns.lastPing') }}</TableHead>
+            <TableHead class="min-w-[200px] px-6 py-3 text-right">{{ t('siteConnections.columns.actions') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -308,16 +308,16 @@ onMounted(() => {
             <TableCell class="px-6 py-4">
               <IdCell :value="conn.id" />
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 font-medium text-foreground break-words">{{ conn.name }}</TableCell>
-            <TableCell class="min-w-[280px] px-6 py-4 text-xs text-muted-foreground font-mono break-all">{{ conn.base_url }}</TableCell>
-            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-muted-foreground break-words">{{ conn.protocol }}</TableCell>
-            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[160px] px-6 py-4 font-medium text-foreground break-words">{{ conn.name }}</TableCell>
+            <TableCell class="min-w-[200px] px-6 py-4 text-xs text-muted-foreground font-mono break-all">{{ conn.base_url }}</TableCell>
+            <TableCell class="min-w-[80px] px-6 py-4 text-xs text-muted-foreground break-words">{{ conn.protocol }}</TableCell>
+            <TableCell class="min-w-[80px] px-6 py-4 text-xs text-muted-foreground">
               <span v-if="conn.price_markup_percent && Number(conn.price_markup_percent) !== 0" class="inline-flex rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
                 +{{ conn.price_markup_percent }}%
               </span>
               <span v-else class="text-muted-foreground">-</span>
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <span
                 class="inline-flex rounded-full border px-2.5 py-1 text-xs"
                 :class="statusBadgeClass(conn.status)"
@@ -325,8 +325,8 @@ onMounted(() => {
                 {{ statusLabel(conn.status) }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">{{ formatTime(conn.last_ping_at) }}</TableCell>
-            <TableCell class="min-w-[240px] px-6 py-4 text-right">
+            <TableCell class="min-w-[80px] px-6 py-4 text-xs text-muted-foreground">{{ formatTime(conn.last_ping_at) }}</TableCell>
+            <TableCell class="min-w-[160px] px-6 py-4 text-right">
               <div class="flex flex-wrap items-center justify-end gap-2">
                 <Button size="sm" variant="outline" @click="openEditModal(conn)">{{ t('admin.common.edit') }}</Button>
                 <Button

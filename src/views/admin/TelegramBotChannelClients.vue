@@ -210,17 +210,17 @@ onMounted(() => {
 
     <Card>
       <CardContent class="overflow-x-auto p-0">
-        <Table class="min-w-[1320px]">
+        <Table class="min-w-[1020px]">
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
-              <TableHead class="min-w-[220px]">{{ t('telegramBot.channelClients.name') }}</TableHead>
-              <TableHead class="min-w-[220px]">{{ t('telegramBot.channelClients.channelKey') }}</TableHead>
-              <TableHead class="min-w-[220px]">{{ t('telegramBot.channelClients.channelSecret') }}</TableHead>
-              <TableHead class="min-w-[140px]">{{ t('telegramBot.channelClients.botToken') }}</TableHead>
-              <TableHead class="min-w-[260px]">{{ t('telegramBot.channelClients.callbackUrl') }}</TableHead>
-              <TableHead class="min-w-[120px]">{{ t('telegramBot.channelClients.statusLabel') }}</TableHead>
-              <TableHead class="min-w-[240px]">{{ t('telegramBot.channelClients.actions') }}</TableHead>
+              <TableHead class="min-w-[160px]">{{ t('telegramBot.channelClients.name') }}</TableHead>
+              <TableHead class="min-w-[160px]">{{ t('telegramBot.channelClients.channelKey') }}</TableHead>
+              <TableHead class="min-w-[160px]">{{ t('telegramBot.channelClients.channelSecret') }}</TableHead>
+              <TableHead class="min-w-[100px]">{{ t('telegramBot.channelClients.botToken') }}</TableHead>
+              <TableHead class="min-w-[180px]">{{ t('telegramBot.channelClients.callbackUrl') }}</TableHead>
+              <TableHead class="min-w-[90px]">{{ t('telegramBot.channelClients.statusLabel') }}</TableHead>
+              <TableHead class="min-w-[160px]">{{ t('telegramBot.channelClients.actions') }}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -236,13 +236,13 @@ onMounted(() => {
             </TableRow>
             <TableRow v-for="client in clients" :key="client.id">
               <TableCell>{{ client.id }}</TableCell>
-              <TableCell class="min-w-[220px]">
+              <TableCell class="min-w-[160px]">
                 <div>
                   <div class="break-words font-medium">{{ client.name }}</div>
                   <div v-if="client.description" class="break-words text-xs text-muted-foreground">{{ client.description }}</div>
                 </div>
               </TableCell>
-              <TableCell class="min-w-[220px]">
+              <TableCell class="min-w-[160px]">
                 <div class="flex items-center gap-1">
                   <code class="block max-w-[180px] break-all rounded bg-muted px-1.5 py-0.5 text-xs">{{ client.channel_key }}</code>
                   <Button variant="ghost" size="sm" class="h-6 w-6 p-0 shrink-0" @click="copyToClipboard(client.channel_key)">
@@ -250,7 +250,7 @@ onMounted(() => {
                   </Button>
                 </div>
               </TableCell>
-              <TableCell class="min-w-[220px]">
+              <TableCell class="min-w-[160px]">
                 <div class="flex items-center gap-1">
                   <code class="block max-w-[180px] break-all rounded bg-muted px-1.5 py-0.5 text-xs">{{ client.channel_secret }}</code>
                   <Button variant="ghost" size="sm" class="h-6 w-6 p-0 shrink-0" @click="copyToClipboard(client.channel_secret)">
@@ -258,13 +258,13 @@ onMounted(() => {
                   </Button>
                 </div>
               </TableCell>
-              <TableCell class="min-w-[140px]">
+              <TableCell class="min-w-[100px]">
                 <Badge v-if="client.bot_token_set" variant="default">
                   {{ t('telegramBot.channelClients.botTokenSet') }}
                 </Badge>
                 <span v-else class="text-xs text-muted-foreground">{{ t('telegramBot.channelClients.botTokenNotSet') }}</span>
               </TableCell>
-              <TableCell class="min-w-[260px]">
+              <TableCell class="min-w-[180px]">
                 <div v-if="client.callback_url" class="flex items-center gap-1">
                   <code class="block max-w-[220px] break-all rounded bg-muted px-1.5 py-0.5 text-xs">{{ client.callback_url }}</code>
                   <Button variant="ghost" size="sm" class="h-6 w-6 p-0 shrink-0" @click="copyToClipboard(client.callback_url)">
@@ -273,12 +273,12 @@ onMounted(() => {
                 </div>
                 <span v-else class="text-xs text-muted-foreground">{{ t('telegramBot.channelClients.callbackUrlNotSet') }}</span>
               </TableCell>
-              <TableCell class="min-w-[120px]">
+              <TableCell class="min-w-[90px]">
                 <Badge :variant="client.status === 1 ? 'default' : 'secondary'">
                   {{ client.status === 1 ? t('telegramBot.channelClients.active') : t('telegramBot.channelClients.disabled') }}
                 </Badge>
               </TableCell>
-              <TableCell class="min-w-[240px]">
+              <TableCell class="min-w-[160px]">
                 <div class="flex flex-wrap items-center gap-1">
                   <Button variant="outline" size="sm" @click="openEditDialog(client)" :title="t('telegramBot.channelClients.edit')">
                     <Pencil class="h-3.5 w-3.5" />

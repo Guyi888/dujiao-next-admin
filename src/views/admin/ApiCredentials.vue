@@ -194,17 +194,17 @@ onMounted(() => fetchCredentials())
 
     <!-- Table -->
     <div class="rounded-md border overflow-x-auto">
-      <Table class="min-w-[1180px]">
+      <Table class="min-w-[940px]">
         <TableHeader>
           <TableRow>
             <TableHead>{{ t('apiCredentials.columns.id') }}</TableHead>
-            <TableHead class="min-w-[240px]">{{ t('apiCredentials.columns.user') }}</TableHead>
-            <TableHead class="min-w-[260px]">{{ t('apiCredentials.columns.apiKey') }}</TableHead>
-            <TableHead class="min-w-[140px]">{{ t('apiCredentials.columns.status') }}</TableHead>
-            <TableHead class="min-w-[120px]">{{ t('apiCredentials.columns.isActive') }}</TableHead>
-            <TableHead class="min-w-[180px]">{{ t('apiCredentials.columns.lastUsedAt') }}</TableHead>
-            <TableHead class="min-w-[180px]">{{ t('apiCredentials.columns.createdAt') }}</TableHead>
-            <TableHead class="min-w-[220px]">{{ t('apiCredentials.columns.actions') }}</TableHead>
+            <TableHead class="min-w-[160px]">{{ t('apiCredentials.columns.user') }}</TableHead>
+            <TableHead class="min-w-[100px]">{{ t('apiCredentials.columns.apiKey') }}</TableHead>
+            <TableHead class="min-w-[100px]">{{ t('apiCredentials.columns.status') }}</TableHead>
+            <TableHead class="min-w-[90px]">{{ t('apiCredentials.columns.isActive') }}</TableHead>
+            <TableHead class="min-w-[100px]">{{ t('apiCredentials.columns.lastUsedAt') }}</TableHead>
+            <TableHead class="min-w-[100px]">{{ t('apiCredentials.columns.createdAt') }}</TableHead>
+            <TableHead class="min-w-[160px]">{{ t('apiCredentials.columns.actions') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -218,27 +218,27 @@ onMounted(() => fetchCredentials())
           </TableRow>
           <TableRow v-for="cred in credentials" :key="cred.id">
             <TableCell><IdCell :value="cred.id" /></TableCell>
-            <TableCell class="min-w-[240px]">
+            <TableCell class="min-w-[160px]">
               <div class="text-sm">
                 <div class="break-words font-medium">{{ cred.user?.display_name || '-' }}</div>
                 <div class="break-all text-xs text-muted-foreground">{{ cred.user?.email || '-' }}</div>
                 <div class="text-xs text-muted-foreground">ID: {{ cred.user_id }}</div>
               </div>
             </TableCell>
-            <TableCell class="min-w-[260px] font-mono text-xs"><div class="break-all">{{ cred.api_key || '-' }}</div></TableCell>
-            <TableCell class="min-w-[140px]">
+            <TableCell class="min-w-[100px] font-mono text-xs"><div class="break-all">{{ cred.api_key || '-' }}</div></TableCell>
+            <TableCell class="min-w-[100px]">
               <Badge :variant="statusVariant(cred.status)">
                 {{ t(`apiCredentials.status.${cred.status}`, cred.status) }}
               </Badge>
             </TableCell>
-            <TableCell class="min-w-[120px]">
+            <TableCell class="min-w-[90px]">
               <Badge :variant="cred.is_active ? 'default' : 'outline'">
                 {{ cred.is_active ? 'ON' : 'OFF' }}
               </Badge>
             </TableCell>
-            <TableCell class="min-w-[180px] text-xs">{{ formatDate(cred.last_used_at) }}</TableCell>
-            <TableCell class="min-w-[180px] text-xs">{{ formatDate(cred.created_at) }}</TableCell>
-            <TableCell class="min-w-[220px]">
+            <TableCell class="min-w-[100px] text-xs">{{ formatDate(cred.last_used_at) }}</TableCell>
+            <TableCell class="min-w-[100px] text-xs">{{ formatDate(cred.created_at) }}</TableCell>
+            <TableCell class="min-w-[160px]">
               <div class="flex flex-wrap gap-1">
                 <Button size="xs" variant="outline" @click="openDetail(cred)">
                   {{ t('apiCredentials.actions.detail') }}

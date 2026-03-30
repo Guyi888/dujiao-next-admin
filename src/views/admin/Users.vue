@@ -304,22 +304,22 @@ onMounted(() => {
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1320px]">
+      <Table class="min-w-[1020px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">
               <input type="checkbox" :checked="allSelected" class="h-4 w-4 accent-primary" @change="toggleSelectAll" />
             </TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.users.table.id') }}</TableHead>
-            <TableHead class="px-6 py-3 min-w-[260px]">{{ t('admin.users.table.email') }}</TableHead>
-            <TableHead class="px-6 py-3 min-w-[220px]">{{ t('admin.users.table.nickname') }}</TableHead>
+            <TableHead class="px-6 py-3 min-w-[140px]">{{ t('admin.users.table.email') }}</TableHead>
+            <TableHead class="px-6 py-3 min-w-[160px]">{{ t('admin.users.table.nickname') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.users.table.status') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.users.table.locale') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.users.table.walletBalance') }}</TableHead>
-            <TableHead class="px-6 py-3 min-w-[180px]">{{ t('admin.users.table.memberLevel') }}</TableHead>
+            <TableHead class="px-6 py-3 min-w-[140px]">{{ t('admin.users.table.memberLevel') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.users.table.createdAt') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.users.table.lastLoginAt') }}</TableHead>
-            <TableHead class="px-6 py-3 min-w-[180px] text-right">{{ t('admin.users.table.action') }}</TableHead>
+            <TableHead class="px-6 py-3 min-w-[140px] text-right">{{ t('admin.users.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -338,8 +338,8 @@ onMounted(() => {
             <TableCell class="px-6 py-4">
               <IdCell :value="user.id" />
             </TableCell>
-            <TableCell class="min-w-[260px] px-6 py-4 text-foreground break-all">{{ user.email }}</TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-muted-foreground break-words">{{ user.display_name || '-' }}</TableCell>
+            <TableCell class="min-w-[140px] px-6 py-4 text-foreground break-all">{{ user.email }}</TableCell>
+            <TableCell class="min-w-[160px] px-6 py-4 text-muted-foreground break-words">{{ user.display_name || '-' }}</TableCell>
             <TableCell class="px-6 py-4 text-xs">
               <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="statusClass(user.status)">
                 {{ statusLabel(user.status) }}
@@ -347,10 +347,10 @@ onMounted(() => {
             </TableCell>
             <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatLocale(user.locale) }}</TableCell>
             <TableCell class="px-6 py-4 text-xs font-mono text-foreground">{{ formatMoney(user.wallet_balance, siteCurrency) }}</TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-foreground break-words">{{ getMemberLevelLabel(user) }}</TableCell>
+            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-foreground break-words">{{ getMemberLevelLabel(user) }}</TableCell>
             <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatDate(user.created_at) }}</TableCell>
             <TableCell class="px-6 py-4 text-xs text-muted-foreground">{{ formatDate(user.last_login_at) }}</TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-right">
+            <TableCell class="min-w-[140px] px-6 py-4 text-right">
               <div class="flex flex-wrap items-center justify-end gap-2">
                 <Button as-child size="sm" variant="outline">
                   <router-link :to="userDetailLink(user.id)">{{ t('admin.users.actions.detail') }}</router-link>

@@ -1067,21 +1067,21 @@ onMounted(async () => {
         </div>
 
         <div class="mt-4 overflow-x-auto">
-          <Table class="min-w-[1320px]">
+          <Table class="min-w-[1020px]">
             <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
               <TableRow>
                 <TableHead class="px-4 py-3">
                   <input type="checkbox" class="h-4 w-4 accent-primary" :checked="allCurrentPageSelected" @change="toggleSelectAllSecrets" />
                 </TableHead>
                 <TableHead class="px-4 py-3">{{ t('admin.cardSecrets.listTable.id') }}</TableHead>
-                <TableHead class="min-w-[260px] px-4 py-3">{{ t('admin.cardSecrets.listTable.secret') }}</TableHead>
-                <TableHead class="min-w-[260px] px-4 py-3">{{ t('admin.cardSecrets.listTable.product') }}</TableHead>
-                <TableHead class="min-w-[180px] px-4 py-3">{{ t('admin.cardSecrets.listTable.sku') }}</TableHead>
-                <TableHead class="min-w-[120px] px-4 py-3">{{ t('admin.cardSecrets.listTable.status') }}</TableHead>
-                <TableHead class="min-w-[160px] px-4 py-3">{{ t('admin.cardSecrets.listTable.orderId') }}</TableHead>
-                <TableHead class="min-w-[220px] px-4 py-3">{{ t('admin.cardSecrets.listTable.batchId') }}</TableHead>
-                <TableHead class="min-w-[180px] px-4 py-3">{{ t('admin.cardSecrets.listTable.createdAt') }}</TableHead>
-                <TableHead class="min-w-[140px] px-4 py-3 text-right">{{ t('admin.cardSecrets.listTable.action') }}</TableHead>
+                <TableHead class="min-w-[100px] px-4 py-3">{{ t('admin.cardSecrets.listTable.secret') }}</TableHead>
+                <TableHead class="min-w-[100px] px-4 py-3">{{ t('admin.cardSecrets.listTable.product') }}</TableHead>
+                <TableHead class="min-w-[100px] px-4 py-3">{{ t('admin.cardSecrets.listTable.sku') }}</TableHead>
+                <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.cardSecrets.listTable.status') }}</TableHead>
+                <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.cardSecrets.listTable.orderId') }}</TableHead>
+                <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.cardSecrets.listTable.batchId') }}</TableHead>
+                <TableHead class="min-w-[100px] px-4 py-3">{{ t('admin.cardSecrets.listTable.createdAt') }}</TableHead>
+                <TableHead class="min-w-[100px] px-4 py-3 text-right">{{ t('admin.cardSecrets.listTable.action') }}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody class="divide-y divide-border">
@@ -1100,8 +1100,8 @@ onMounted(async () => {
                 <TableCell class="px-4 py-3">
                   <IdCell :value="secret.id" />
                 </TableCell>
-                <TableCell class="min-w-[260px] break-all px-4 py-3 font-mono text-xs text-muted-foreground">{{ secret.secret }}</TableCell>
-                <TableCell class="min-w-[260px] px-4 py-3 text-xs text-muted-foreground">
+                <TableCell class="min-w-[100px] break-all px-4 py-3 font-mono text-xs text-muted-foreground">{{ secret.secret }}</TableCell>
+                <TableCell class="min-w-[100px] px-4 py-3 text-xs text-muted-foreground">
                   <a
                     v-if="secret.product_id"
                     :href="productLink(secret.product_id)"
@@ -1113,15 +1113,15 @@ onMounted(async () => {
                   </a>
                   <span v-else class="text-muted-foreground">-</span>
                 </TableCell>
-                <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground">
+                <TableCell class="min-w-[100px] px-4 py-3 text-xs text-muted-foreground">
                   <div class="break-words">{{ secretSkuLabel(secret) }}</div>
                 </TableCell>
-                <TableCell class="min-w-[120px] px-4 py-3 text-xs">
+                <TableCell class="min-w-[90px] px-4 py-3 text-xs">
                   <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="cardSecretStatusClass(secret.status)">
                     {{ cardSecretStatusLabel(secret.status) }}
                   </span>
                 </TableCell>
-                <TableCell class="min-w-[160px] px-4 py-3 text-xs">
+                <TableCell class="min-w-[90px] px-4 py-3 text-xs">
                   <div class="flex flex-col gap-1">
                     <a
                       v-if="secret.order_id"
@@ -1138,7 +1138,7 @@ onMounted(async () => {
                     </span>
                   </div>
                 </TableCell>
-                <TableCell class="min-w-[220px] px-4 py-3 text-xs text-muted-foreground">
+                <TableCell class="min-w-[90px] px-4 py-3 text-xs text-muted-foreground">
                   <button
                     v-if="secret.batch_id"
                     type="button"
@@ -1149,8 +1149,8 @@ onMounted(async () => {
                   </button>
                   <span v-else>-</span>
                 </TableCell>
-                <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground">{{ formatDate(secret.created_at) }}</TableCell>
-                <TableCell class="min-w-[140px] px-4 py-3 text-right">
+                <TableCell class="min-w-[100px] px-4 py-3 text-xs text-muted-foreground">{{ formatDate(secret.created_at) }}</TableCell>
+                <TableCell class="min-w-[100px] px-4 py-3 text-right">
                   <Button size="sm" variant="outline" @click="openEditSecret(secret)">{{ t('admin.cardSecrets.actions.edit') }}</Button>
                 </TableCell>
               </TableRow>

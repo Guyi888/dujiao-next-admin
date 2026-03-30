@@ -259,24 +259,24 @@ onMounted(() => {
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1440px]">
+      <Table class="min-w-[1100px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">
               <input type="checkbox" :checked="allSelected" class="h-4 w-4 accent-primary" @change="toggleSelectAll" />
             </TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesUsers.table.id') }}</TableHead>
-            <TableHead class="min-w-[240px] px-6 py-3">{{ t('admin.affiliatesUsers.table.user') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.affiliatesUsers.table.code') }}</TableHead>
+            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.affiliatesUsers.table.user') }}</TableHead>
+            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.affiliatesUsers.table.code') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesUsers.table.clicks') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesUsers.table.validOrders') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesUsers.table.conversionRate') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesUsers.table.pending') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesUsers.table.available') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesUsers.table.withdrawn') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.affiliatesUsers.table.status') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.affiliatesUsers.table.createdAt') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3 text-right">{{ t('admin.affiliatesUsers.table.action') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.affiliatesUsers.table.status') }}</TableHead>
+            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.affiliatesUsers.table.createdAt') }}</TableHead>
+            <TableHead class="min-w-[140px] px-6 py-3 text-right">{{ t('admin.affiliatesUsers.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -301,12 +301,12 @@ onMounted(() => {
             <TableCell class="px-6 py-4">
               <IdCell :value="item?.profile?.id || item?.id" />
             </TableCell>
-            <TableCell class="min-w-[240px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground">
               <div class="text-foreground">#{{ item?.profile?.user_id || item?.user_id || '-' }}</div>
               <div v-if="item?.profile?.user?.display_name" class="mt-0.5 break-words text-foreground">{{ item.profile.user.display_name }}</div>
               <div v-if="item?.profile?.user?.email" class="mt-0.5 break-all">{{ item.profile.user.email }}</div>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4">
+            <TableCell class="min-w-[140px] px-6 py-4">
               <span class="break-all rounded-md border border-border bg-muted/30 px-2 py-1 font-mono text-xs text-foreground">
                 {{ item?.profile?.code || item?.profile?.affiliate_code || '-' }}
               </span>
@@ -317,13 +317,13 @@ onMounted(() => {
             <TableCell class="px-6 py-4 font-mono text-xs text-foreground">{{ pickStatAmount(item?.stats, 'PendingCommission', 'pending_commission') }}</TableCell>
             <TableCell class="px-6 py-4 font-mono text-xs text-foreground">{{ pickStatAmount(item?.stats, 'AvailableCommission', 'available_commission') }}</TableCell>
             <TableCell class="px-6 py-4 font-mono text-xs text-foreground">{{ pickStatAmount(item?.stats, 'WithdrawnCommission', 'withdrawn_commission') }}</TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-xs">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs">
               <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="statusClass(item?.profile?.status || item?.status)">
                 {{ statusLabel(item?.profile?.status || item?.status) }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item?.profile?.created_at || item?.created_at) }}</TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-right">
+            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item?.profile?.created_at || item?.created_at) }}</TableCell>
+            <TableCell class="min-w-[140px] px-6 py-4 text-right">
               <Button
                 size="sm"
                 variant="outline"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, RouterView, RouterLink } from 'vue-router'
 import {
   LayoutDashboard,
@@ -29,6 +29,8 @@ import {
   ScrollText,
   ChevronDown,
   ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
   Sun,
   Moon,
   Link,
@@ -64,6 +66,8 @@ interface NavGroup {
 }
 
 const NAV_GROUP_EXPANDED_STORAGE_KEY = 'admin_nav_group_expanded'
+const SIDEBAR_COLLAPSED_STORAGE_KEY = 'admin_sidebar_collapsed'
+const SIDEBAR_AUTO_COLLAPSE_WIDTH = 1280 // xl breakpoint
 
 const readExpandedGroups = () => {
   if (typeof window === 'undefined') {
@@ -97,6 +101,8 @@ const isDark = ref(false)
 const navSearch = ref('')
 const expandedGroups = ref<Record<string, boolean>>(readExpandedGroups())
 const mobileNavOpen = ref(false)
+const sidebarCollapsed = ref(false)
+const sidebarUserToggled = ref(false) // tracks if user manually toggled
 
 // Close mobile nav on route change
 watch(() => route.path, () => {
@@ -510,6 +516,17 @@ const applyLocale = (value: string) => {
   localStorage.setItem('admin_locale', value)
 }
 
+const toggleSidebar = () => {
+  sidebarCollapsed.value = !sidebarCollapsed.value
+  sidebarUserToggled.value = true
+  localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(sidebarCollapsed.value))
+}
+
+const handleResize = () => {
+  if (sidebarUserToggled.value) return
+  sidebarCollapsed.value = window.innerWidth < SIDEBAR_AUTO_COLLAPSE_WIDTH
+}
+
 const handleLogout = () => {
   authStore.logout()
   window.location.href = '/login'
@@ -528,6 +545,21 @@ onMounted(() => {
   if (savedLocale) {
     applyLocale(savedLocale)
   }
+
+  // Initialize sidebar collapse state
+  const savedCollapsed = localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY)
+  if (savedCollapsed !== null) {
+    sidebarCollapsed.value = savedCollapsed === 'true'
+    sidebarUserToggled.value = true
+  } else {
+    // Auto-collapse on medium screens
+    sidebarCollapsed.value = window.innerWidth < SIDEBAR_AUTO_COLLAPSE_WIDTH
+  }
+  window.addEventListener('resize', handleResize)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
@@ -535,79 +567,122 @@ onMounted(() => {
   <div class="min-h-screen bg-background text-foreground">
     <div class="flex min-h-screen">
       <!-- Desktop sidebar -->
-      <aside class="hidden md:flex w-64 border-r border-border bg-card flex-col sticky top-0 h-screen overflow-y-auto">
-        <div class="px-6 py-6">
-          <div class="text-xl font-semibold tracking-tight">
+      <aside
+        class="hidden md:flex border-r border-border bg-card flex-col sticky top-0 h-screen overflow-y-auto transition-all duration-300"
+        :class="sidebarCollapsed ? 'w-16' : 'w-64'"
+      >
+        <div class="py-6" :class="sidebarCollapsed ? 'px-2' : 'px-6'">
+          <div v-if="!sidebarCollapsed" class="text-xl font-semibold tracking-tight">
             {{ t('admin.brand') }}
           </div>
-          <div class="text-xs text-muted-foreground mt-1">{{ t('admin.layout.controlRoom') }}</div>
+          <div v-if="!sidebarCollapsed" class="text-xs text-muted-foreground mt-1">{{ t('admin.layout.controlRoom') }}</div>
+          <div v-if="sidebarCollapsed" class="text-lg font-semibold tracking-tight text-center">D&J</div>
         </div>
-        <div class="px-3 pb-2">
+        <div v-if="!sidebarCollapsed" class="px-3 pb-2">
           <Input
             v-model="navSearch"
             class="h-8 text-xs"
             :placeholder="t('admin.navSearch.placeholder')"
           />
         </div>
-        <nav class="px-3 pb-3 space-y-2 flex-1 overflow-y-auto">
-          <RouterLink
-            v-if="showDashboardNav"
-            to="/"
-            class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
-            :class="isItemActive('/') ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/70'"
-          >
-            <LayoutDashboard class="h-4 w-4 shrink-0" />
-            <span>{{ dashboardNavLabel }}</span>
-          </RouterLink>
-          <div
-            v-if="!showDashboardNav && filteredNavGroups.length === 0"
-            class="rounded-lg border border-dashed border-border px-3 py-4 text-xs text-muted-foreground"
-          >
-            {{ t('admin.navSearch.empty') }}
-          </div>
-          <div v-for="group in filteredNavGroups" :key="group.id" class="space-y-1">
-            <button
-              type="button"
-              class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-secondary/70"
-              :class="isGroupExpanded(group.id) ? 'bg-secondary/40 text-foreground' : 'text-foreground'"
-              @click="toggleGroup(group.id)"
+        <nav class="pb-3 space-y-2 flex-1 overflow-y-auto" :class="sidebarCollapsed ? 'px-1.5' : 'px-3'">
+          <!-- Expanded mode -->
+          <template v-if="!sidebarCollapsed">
+            <RouterLink
+              v-if="showDashboardNav"
+              to="/"
+              class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors"
+              :class="isItemActive('/') ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/70'"
             >
-              <div class="flex min-w-0 items-center gap-3">
-                <component :is="group.icon" class="h-4 w-4 shrink-0" />
-                <span class="truncate">{{ group.label }}</span>
+              <LayoutDashboard class="h-4 w-4 shrink-0" />
+              <span>{{ dashboardNavLabel }}</span>
+            </RouterLink>
+            <div
+              v-if="!showDashboardNav && filteredNavGroups.length === 0"
+              class="rounded-lg border border-dashed border-border px-3 py-4 text-xs text-muted-foreground"
+            >
+              {{ t('admin.navSearch.empty') }}
+            </div>
+            <div v-for="group in filteredNavGroups" :key="group.id" class="space-y-1">
+              <button
+                type="button"
+                class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-secondary/70"
+                :class="isGroupExpanded(group.id) ? 'bg-secondary/40 text-foreground' : 'text-foreground'"
+                @click="toggleGroup(group.id)"
+              >
+                <div class="flex min-w-0 items-center gap-3">
+                  <component :is="group.icon" class="h-4 w-4 shrink-0" />
+                  <span class="truncate">{{ group.label }}</span>
+                </div>
+                <component
+                  :is="isGroupExpanded(group.id) ? ChevronDown : ChevronRight"
+                  class="h-4 w-4 shrink-0 text-muted-foreground"
+                />
+              </button>
+              <div v-show="isGroupExpanded(group.id)" class="space-y-1 pl-9">
+                <RouterLink
+                  v-for="item in group.items"
+                  :key="`${group.id}-${item.to}`"
+                  :to="item.to"
+                  class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors"
+                  :class="isItemActive(item.to) ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:bg-secondary/70 hover:text-foreground'"
+                >
+                  <component v-if="item.icon" :is="item.icon" class="h-3.5 w-3.5 shrink-0" />
+                  <span class="truncate">{{ item.label }}</span>
+                </RouterLink>
               </div>
-              <component
-                :is="isGroupExpanded(group.id) ? ChevronDown : ChevronRight"
-                class="h-4 w-4 shrink-0 text-muted-foreground"
-              />
-            </button>
-            <div v-show="isGroupExpanded(group.id)" class="space-y-1 pl-9">
+            </div>
+          </template>
+          <!-- Collapsed mode: icon-only -->
+          <template v-else>
+            <RouterLink
+              to="/"
+              class="flex items-center justify-center rounded-lg p-2 transition-colors"
+              :class="isItemActive('/') ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/70'"
+              :title="dashboardNavLabel"
+            >
+              <LayoutDashboard class="h-4 w-4 shrink-0" />
+            </RouterLink>
+            <template v-for="group in navGroups" :key="`collapsed-${group.id}`">
+              <div class="my-1 border-t border-border/50" />
               <RouterLink
                 v-for="item in group.items"
-                :key="`${group.id}-${item.to}`"
+                :key="`collapsed-${group.id}-${item.to}`"
                 :to="item.to"
-                class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors"
-                :class="isItemActive(item.to) ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:bg-secondary/70 hover:text-foreground'"
+                class="flex items-center justify-center rounded-lg p-2 transition-colors"
+                :class="isItemActive(item.to) ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/70'"
+                :title="item.label"
               >
-                <component v-if="item.icon" :is="item.icon" class="h-3.5 w-3.5 shrink-0" />
-                <span class="truncate">{{ item.label }}</span>
+                <component v-if="item.icon" :is="item.icon" class="h-4 w-4 shrink-0" />
               </RouterLink>
-            </div>
-          </div>
+            </template>
+          </template>
         </nav>
-        <div class="px-6 py-4 border-t border-border text-[11px] text-muted-foreground space-y-1">
-          <p>© {{ new Date().getFullYear() }} Dujiao-Next</p>
-          <a
-            href="https://github.com/dujiao-next"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1 underline-offset-2 hover:underline"
+        <!-- Collapse toggle button -->
+        <div class="border-t border-border">
+          <div v-if="!sidebarCollapsed" class="px-6 py-3 text-[11px] text-muted-foreground space-y-1">
+            <p>© {{ new Date().getFullYear() }} Dujiao-Next</p>
+            <a
+              href="https://github.com/dujiao-next"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 underline-offset-2 hover:underline"
+            >
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 .5C5.648.5.5 5.648.5 12c0 5.084 3.292 9.4 7.86 10.922.575.106.784-.25.784-.556 0-.273-.01-1-.016-1.962-3.197.694-3.872-1.54-3.872-1.54-.522-1.326-1.274-1.678-1.274-1.678-1.042-.713.079-.699.079-.699 1.152.081 1.758 1.183 1.758 1.183 1.024 1.755 2.688 1.248 3.343.954.104-.742.401-1.248.73-1.535-2.552-.29-5.236-1.276-5.236-5.678 0-1.254.448-2.28 1.182-3.084-.118-.29-.512-1.457.112-3.04 0 0 .964-.308 3.158 1.178a10.98 10.98 0 0 1 2.876-.387c.976.004 1.96.132 2.878.387 2.192-1.486 3.154-1.178 3.154-1.178.626 1.583.232 2.75.114 3.04.736.804 1.18 1.83 1.18 3.084 0 4.413-2.688 5.384-5.248 5.668.412.354.78 1.052.78 2.12 0 1.53-.014 2.764-.014 3.14 0 .31.206.668.79.554C20.212 21.396 23.5 17.083 23.5 12 23.5 5.648 18.352.5 12 .5Z" />
+              </svg>
+              <span>https://github.com/dujiao-next</span>
+            </a>
+          </div>
+          <button
+            type="button"
+            class="flex w-full items-center justify-center py-3 text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition-colors"
+            @click="toggleSidebar"
+            :title="sidebarCollapsed ? t('admin.layout.expandSidebar') : t('admin.layout.collapseSidebar')"
           >
-            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 .5C5.648.5.5 5.648.5 12c0 5.084 3.292 9.4 7.86 10.922.575.106.784-.25.784-.556 0-.273-.01-1-.016-1.962-3.197.694-3.872-1.54-3.872-1.54-.522-1.326-1.274-1.678-1.274-1.678-1.042-.713.079-.699.079-.699 1.152.081 1.758 1.183 1.758 1.183 1.024 1.755 2.688 1.248 3.343.954.104-.742.401-1.248.73-1.535-2.552-.29-5.236-1.276-5.236-5.678 0-1.254.448-2.28 1.182-3.084-.118-.29-.512-1.457.112-3.04 0 0 .964-.308 3.158 1.178a10.98 10.98 0 0 1 2.876-.387c.976.004 1.96.132 2.878.387 2.192-1.486 3.154-1.178 3.154-1.178.626 1.583.232 2.75.114 3.04.736.804 1.18 1.83 1.18 3.084 0 4.413-2.688 5.384-5.248 5.668.412.354.78 1.052.78 2.12 0 1.53-.014 2.764-.014 3.14 0 .31.206.668.79.554C20.212 21.396 23.5 17.083 23.5 12 23.5 5.648 18.352.5 12 .5Z" />
-            </svg>
-            <span>https://github.com/dujiao-next</span>
-          </a>
+            <ChevronsLeft v-if="!sidebarCollapsed" class="h-4 w-4" />
+            <ChevronsRight v-else class="h-4 w-4" />
+          </button>
         </div>
       </aside>
 
@@ -685,6 +760,16 @@ onMounted(() => {
           <div class="flex items-center gap-3">
             <Button size="icon-sm" variant="ghost" class="md:hidden" @click="mobileNavOpen = true">
               <Menu class="h-5 w-5" />
+            </Button>
+            <Button
+              size="icon-sm"
+              variant="ghost"
+              class="hidden md:inline-flex"
+              @click="toggleSidebar"
+              :title="sidebarCollapsed ? t('admin.layout.expandSidebar') : t('admin.layout.collapseSidebar')"
+            >
+              <ChevronsRight v-if="sidebarCollapsed" class="h-4 w-4" />
+              <ChevronsLeft v-else class="h-4 w-4" />
             </Button>
             <div class="text-sm text-muted-foreground hidden sm:block">{{ t('admin.layout.workspace') }}</div>
           </div>

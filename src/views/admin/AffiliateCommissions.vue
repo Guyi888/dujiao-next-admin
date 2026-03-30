@@ -139,19 +139,19 @@ onMounted(() => {
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1280px]">
+      <Table class="min-w-[1000px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesCommissions.table.id') }}</TableHead>
-            <TableHead class="min-w-[240px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.user') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.orderNo') }}</TableHead>
+            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.user') }}</TableHead>
+            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.orderNo') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesCommissions.table.baseAmount') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesCommissions.table.rate') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesCommissions.table.commission') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.status') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.confirmAt') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.availableAt') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.createdAt') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.status') }}</TableHead>
+            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.confirmAt') }}</TableHead>
+            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.availableAt') }}</TableHead>
+            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.affiliatesCommissions.table.createdAt') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -167,27 +167,27 @@ onMounted(() => {
             <TableCell class="px-6 py-4">
               <IdCell :value="item.id" />
             </TableCell>
-            <TableCell class="min-w-[240px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground">
               <div class="text-foreground">
                 <span class="break-words">{{ item?.affiliate_profile?.user?.display_name || '-' }}</span>
               </div>
               <div v-if="item?.affiliate_profile?.user?.email" class="mt-0.5 break-all">{{ item.affiliate_profile.user.email }}</div>
               <div class="mt-0.5 break-all font-mono">#{{ item?.affiliate_profile?.id || '-' }} / {{ item?.affiliate_profile?.code || '-' }}</div>
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 font-mono text-xs text-foreground break-all">
+            <TableCell class="min-w-[160px] px-6 py-4 font-mono text-xs text-foreground break-all">
               {{ item?.order?.order_no || '-' }}
             </TableCell>
             <TableCell class="px-6 py-4 font-mono text-xs text-foreground">{{ item.base_amount || '0.00' }}</TableCell>
             <TableCell class="px-6 py-4 font-mono text-xs text-foreground">{{ item.rate_percent || '0.00' }}%</TableCell>
             <TableCell class="px-6 py-4 font-mono text-xs text-foreground">{{ item.commission_amount || '0.00' }}</TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-xs">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs">
               <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="statusClass(item.status)">
                 {{ statusLabel(item.status) }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.confirm_at) || '-' }}</TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.available_at) || '-' }}</TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.created_at) }}</TableCell>
+            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.confirm_at) || '-' }}</TableCell>
+            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.available_at) || '-' }}</TableCell>
+            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.created_at) }}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

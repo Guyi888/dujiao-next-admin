@@ -526,23 +526,23 @@ onMounted(() => {
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1360px]">
+      <Table class="min-w-[1060px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="min-w-[56px] px-4 py-3">
               <input type="checkbox" class="h-4 w-4 accent-primary" :checked="allCurrentPageSelected" @change="toggleSelectAllCards" />
             </TableHead>
-            <TableHead class="min-w-[100px] px-4 py-3">{{ t('admin.giftCards.table.id') }}</TableHead>
-            <TableHead class="min-w-[200px] px-4 py-3">{{ t('admin.giftCards.table.name') }}</TableHead>
-            <TableHead class="min-w-[220px] px-4 py-3">{{ t('admin.giftCards.table.code') }}</TableHead>
-            <TableHead class="min-w-[140px] px-4 py-3">{{ t('admin.giftCards.table.amount') }}</TableHead>
-            <TableHead class="min-w-[120px] px-4 py-3">{{ t('admin.giftCards.table.status') }}</TableHead>
-            <TableHead class="min-w-[180px] px-4 py-3">{{ t('admin.giftCards.table.batchNo') }}</TableHead>
-            <TableHead class="min-w-[220px] px-4 py-3">{{ t('admin.giftCards.table.redeemedUser') }}</TableHead>
-            <TableHead class="min-w-[180px] px-4 py-3">{{ t('admin.giftCards.table.redeemedAt') }}</TableHead>
-            <TableHead class="min-w-[180px] px-4 py-3">{{ t('admin.giftCards.table.expiresAt') }}</TableHead>
-            <TableHead class="min-w-[180px] px-4 py-3">{{ t('admin.giftCards.table.createdAt') }}</TableHead>
-            <TableHead class="min-w-[180px] px-4 py-3 text-right">{{ t('admin.giftCards.table.action') }}</TableHead>
+            <TableHead class="min-w-[80px] px-4 py-3">{{ t('admin.giftCards.table.id') }}</TableHead>
+            <TableHead class="min-w-[80px] px-4 py-3">{{ t('admin.giftCards.table.name') }}</TableHead>
+            <TableHead class="min-w-[160px] px-4 py-3">{{ t('admin.giftCards.table.code') }}</TableHead>
+            <TableHead class="min-w-[80px] px-4 py-3">{{ t('admin.giftCards.table.amount') }}</TableHead>
+            <TableHead class="min-w-[90px] px-4 py-3">{{ t('admin.giftCards.table.status') }}</TableHead>
+            <TableHead class="min-w-[80px] px-4 py-3">{{ t('admin.giftCards.table.batchNo') }}</TableHead>
+            <TableHead class="min-w-[160px] px-4 py-3">{{ t('admin.giftCards.table.redeemedUser') }}</TableHead>
+            <TableHead class="min-w-[80px] px-4 py-3">{{ t('admin.giftCards.table.redeemedAt') }}</TableHead>
+            <TableHead class="min-w-[80px] px-4 py-3">{{ t('admin.giftCards.table.expiresAt') }}</TableHead>
+            <TableHead class="min-w-[80px] px-4 py-3">{{ t('admin.giftCards.table.createdAt') }}</TableHead>
+            <TableHead class="min-w-[80px] px-4 py-3 text-right">{{ t('admin.giftCards.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -563,21 +563,21 @@ onMounted(() => {
                 @change="onRowSelectChange(card.id, $event)"
               />
             </TableCell>
-            <TableCell class="min-w-[100px] px-4 py-3"><IdCell :value="card.id" /></TableCell>
-            <TableCell class="min-w-[200px] px-4 py-3 text-foreground font-medium break-words">{{ card.name || '-' }}</TableCell>
-            <TableCell class="min-w-[220px] px-4 py-3 font-mono text-xs text-foreground break-all">{{ card.code || '-' }}</TableCell>
-            <TableCell class="min-w-[140px] px-4 py-3 font-mono text-xs text-foreground">{{ formatMoney(card.amount, card.currency) }}</TableCell>
-            <TableCell class="min-w-[120px] px-4 py-3">
+            <TableCell class="min-w-[80px] px-4 py-3"><IdCell :value="card.id" /></TableCell>
+            <TableCell class="min-w-[80px] px-4 py-3 text-foreground font-medium break-words">{{ card.name || '-' }}</TableCell>
+            <TableCell class="min-w-[160px] px-4 py-3 font-mono text-xs text-foreground break-all">{{ card.code || '-' }}</TableCell>
+            <TableCell class="min-w-[80px] px-4 py-3 font-mono text-xs text-foreground">{{ formatMoney(card.amount, card.currency) }}</TableCell>
+            <TableCell class="min-w-[90px] px-4 py-3">
               <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="statusClass(card)">
                 {{ statusLabel(card) }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground break-all">{{ card.batch?.batch_no || '-' }}</TableCell>
-            <TableCell class="min-w-[220px] px-4 py-3 text-xs text-muted-foreground break-words">{{ redeemedUserText(card) }}</TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground">{{ formatDate(card.redeemed_at) || '-' }}</TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground break-words">{{ expiresAtText(card) }}</TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground">{{ formatDate(card.created_at) || '-' }}</TableCell>
-            <TableCell class="min-w-[180px] px-4 py-3 text-right">
+            <TableCell class="min-w-[80px] px-4 py-3 text-xs text-muted-foreground break-all">{{ card.batch?.batch_no || '-' }}</TableCell>
+            <TableCell class="min-w-[160px] px-4 py-3 text-xs text-muted-foreground break-words">{{ redeemedUserText(card) }}</TableCell>
+            <TableCell class="min-w-[80px] px-4 py-3 text-xs text-muted-foreground">{{ formatDate(card.redeemed_at) || '-' }}</TableCell>
+            <TableCell class="min-w-[80px] px-4 py-3 text-xs text-muted-foreground break-words">{{ expiresAtText(card) }}</TableCell>
+            <TableCell class="min-w-[80px] px-4 py-3 text-xs text-muted-foreground">{{ formatDate(card.created_at) || '-' }}</TableCell>
+            <TableCell class="min-w-[80px] px-4 py-3 text-right">
               <div class="flex flex-wrap items-center justify-end gap-2">
                 <Button size="sm" variant="outline" @click="openEditModal(card)">{{ t('admin.giftCards.actions.edit') }}</Button>
                 <Button

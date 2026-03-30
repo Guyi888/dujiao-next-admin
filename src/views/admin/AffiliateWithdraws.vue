@@ -168,19 +168,19 @@ onMounted(() => {
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1240px]">
+      <Table class="min-w-[980px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesWithdraws.table.id') }}</TableHead>
-            <TableHead class="min-w-[260px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.user') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.user') }}</TableHead>
             <TableHead class="px-6 py-3">{{ t('admin.affiliatesWithdraws.table.amount') }}</TableHead>
-            <TableHead class="min-w-[140px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.channel') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.account') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.status') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.rejectReason') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.processedBy') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.createdAt') }}</TableHead>
-            <TableHead class="min-w-[180px] px-6 py-3 text-right">{{ t('admin.affiliatesWithdraws.table.action') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.channel') }}</TableHead>
+            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.account') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.status') }}</TableHead>
+            <TableHead class="min-w-[160px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.rejectReason') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.processedBy') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3">{{ t('admin.affiliatesWithdraws.table.createdAt') }}</TableHead>
+            <TableHead class="min-w-[100px] px-6 py-3 text-right">{{ t('admin.affiliatesWithdraws.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -196,7 +196,7 @@ onMounted(() => {
             <TableCell class="px-6 py-4">
               <IdCell :value="item.id" />
             </TableCell>
-            <TableCell class="min-w-[260px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">
               <div class="text-foreground">
                 <span class="break-words">{{ item?.affiliate_profile?.user?.display_name || '-' }}</span>
               </div>
@@ -204,20 +204,20 @@ onMounted(() => {
               <div class="mt-0.5 break-all font-mono">#{{ item?.affiliate_profile?.id || '-' }} / {{ item?.affiliate_profile?.code || '-' }}</div>
             </TableCell>
             <TableCell class="px-6 py-4 font-mono text-xs text-foreground">{{ item.amount || '0.00' }}</TableCell>
-            <TableCell class="min-w-[140px] px-6 py-4 text-xs text-foreground break-words">{{ item.channel || '-' }}</TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-xs text-muted-foreground break-all">{{ item.account || '-' }}</TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-xs">
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-foreground break-words">{{ item.channel || '-' }}</TableCell>
+            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground break-all">{{ item.account || '-' }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs">
               <span class="inline-flex rounded-full border px-2.5 py-1 text-xs" :class="statusClass(item.status)">
                 {{ statusLabel(item.status) }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-xs text-muted-foreground break-words">{{ item.reject_reason || '-' }}</TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[160px] px-6 py-4 text-xs text-muted-foreground break-words">{{ item.reject_reason || '-' }}</TableCell>
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">
               <div class="break-words">{{ (typeof item?.processor === 'object' ? item?.processor?.username : item?.processor) || '-' }}</div>
               <div class="mt-0.5">{{ formatDate(item.processed_at) || '-' }}</div>
             </TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.created_at) }}</TableCell>
-            <TableCell class="min-w-[180px] px-6 py-4 text-right">
+            <TableCell class="min-w-[100px] px-6 py-4 text-xs text-muted-foreground">{{ formatDate(item.created_at) }}</TableCell>
+            <TableCell class="min-w-[100px] px-6 py-4 text-right">
               <div class="flex flex-wrap items-center justify-end gap-2">
                 <Button
                   size="sm"

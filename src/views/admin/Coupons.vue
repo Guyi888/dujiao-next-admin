@@ -533,18 +533,18 @@ watch(
     </div>
 
     <div class="rounded-xl border border-border bg-card overflow-x-auto">
-      <Table class="min-w-[1160px]">
+      <Table class="min-w-[920px]">
         <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
           <TableRow>
             <TableHead class="px-6 py-3">{{ t('admin.coupons.table.id') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.coupons.table.code') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.coupons.table.type') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.coupons.table.value') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.coupons.table.scope') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.coupons.table.limits') }}</TableHead>
-            <TableHead class="min-w-[220px] px-6 py-3">{{ t('admin.coupons.table.period') }}</TableHead>
-            <TableHead class="min-w-[120px] px-6 py-3">{{ t('admin.coupons.table.status') }}</TableHead>
-            <TableHead class="min-w-[160px] px-6 py-3 text-right">{{ t('admin.coupons.table.action') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.coupons.table.code') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.coupons.table.type') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.coupons.table.value') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.coupons.table.scope') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.coupons.table.limits') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.coupons.table.period') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3">{{ t('admin.coupons.table.status') }}</TableHead>
+            <TableHead class="min-w-[90px] px-6 py-3 text-right">{{ t('admin.coupons.table.action') }}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody class="divide-y divide-border">
@@ -560,25 +560,25 @@ watch(
             <TableCell class="px-6 py-4">
               <IdCell :value="coupon.id" />
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <div class="break-all font-medium text-foreground">{{ coupon.code }}</div>
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-xs text-muted-foreground">{{ discountTypeLabel(coupon.type) }}</TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4 text-foreground font-mono">{{ coupon.value }}</TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground">{{ discountTypeLabel(coupon.type) }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-foreground font-mono">{{ coupon.value }}</TableCell>
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground">
               <div class="break-words">{{ formatScope(coupon.scope_ref_ids) }}</div>
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground">
               <div class="break-words">{{ t('admin.coupons.limit.minAmount') }}：{{ coupon.min_amount || '-' }}</div>
               <div class="break-words">{{ t('admin.coupons.limit.maxDiscount') }}：{{ coupon.max_discount || '-' }}</div>
               <div class="break-words">{{ t('admin.coupons.limit.usageLimit') }}：{{ coupon.usage_limit || '-' }}</div>
               <div class="break-words">{{ t('admin.coupons.limit.perUserLimit') }}：{{ coupon.per_user_limit || '-' }}</div>
             </TableCell>
-            <TableCell class="min-w-[220px] px-6 py-4 text-xs text-muted-foreground">
+            <TableCell class="min-w-[90px] px-6 py-4 text-xs text-muted-foreground">
               <div class="break-words">{{ t('admin.coupons.period.startsAt') }}：{{ formatDate(coupon.starts_at) || '-' }}</div>
               <div class="break-words">{{ t('admin.coupons.period.endsAt') }}：{{ formatDate(coupon.ends_at) || '-' }}</div>
             </TableCell>
-            <TableCell class="min-w-[120px] px-6 py-4">
+            <TableCell class="min-w-[90px] px-6 py-4">
               <span
                 class="inline-flex rounded-full border px-2.5 py-1 text-xs"
                 :class="coupon.is_active ? 'text-emerald-700 border-emerald-200 bg-emerald-50' : 'text-muted-foreground border-border bg-muted/30'"
@@ -586,7 +586,7 @@ watch(
                 {{ coupon.is_active ? t('admin.common.enabled') : t('admin.common.disabled') }}
               </span>
             </TableCell>
-            <TableCell class="min-w-[160px] px-6 py-4 text-right">
+            <TableCell class="min-w-[90px] px-6 py-4 text-right">
               <div class="flex items-center justify-end gap-2">
                 <Button size="sm" variant="outline" @click="openEditModal(coupon)">{{ t('admin.coupons.actions.edit') }}</Button>
                 <Button size="sm" variant="destructive" @click="handleDelete(coupon)">{{ t('admin.coupons.actions.delete') }}</Button>

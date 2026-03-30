@@ -793,16 +793,16 @@ onMounted(async () => {
         <div class="space-y-3">
           <Input v-model="adminKeyword" :placeholder="text.adminSearchPlaceholder" class="h-9" />
           <div class="rounded-lg border border-border overflow-x-auto">
-            <Table class="min-w-[1120px]">
+            <Table class="min-w-[900px]">
               <TableHeader class="border-b border-border bg-muted/40 text-xs uppercase text-muted-foreground">
                 <TableRow>
                   <TableHead class="px-4 py-3">{{ text.adminTableId }}</TableHead>
-                  <TableHead class="min-w-[180px] px-4 py-3">{{ text.adminTableUsername }}</TableHead>
-                  <TableHead class="min-w-[220px] px-4 py-3">{{ text.adminTableRoles }}</TableHead>
-                  <TableHead class="min-w-[120px] px-4 py-3">{{ text.adminTableSuper }}</TableHead>
-                  <TableHead class="min-w-[180px] px-4 py-3">{{ text.adminTableCreatedAt }}</TableHead>
-                  <TableHead class="min-w-[180px] px-4 py-3">{{ text.adminTableLastLoginAt }}</TableHead>
-                  <TableHead class="min-w-[220px] px-4 py-3 text-right">{{ text.tableOperation }}</TableHead>
+                  <TableHead class="min-w-[140px] px-4 py-3">{{ text.adminTableUsername }}</TableHead>
+                  <TableHead class="min-w-[160px] px-4 py-3">{{ text.adminTableRoles }}</TableHead>
+                  <TableHead class="min-w-[90px] px-4 py-3">{{ text.adminTableSuper }}</TableHead>
+                  <TableHead class="min-w-[140px] px-4 py-3">{{ text.adminTableCreatedAt }}</TableHead>
+                  <TableHead class="min-w-[140px] px-4 py-3">{{ text.adminTableLastLoginAt }}</TableHead>
+                  <TableHead class="min-w-[160px] px-4 py-3 text-right">{{ text.tableOperation }}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody class="divide-y divide-border">
@@ -821,17 +821,17 @@ onMounted(async () => {
                   <TableCell class="px-4 py-3">
                     <IdCell :value="item.id" />
                   </TableCell>
-                  <TableCell class="min-w-[180px] px-4 py-3 font-medium break-words">{{ item.username }}</TableCell>
-                  <TableCell class="min-w-[220px] px-4 py-3 text-xs text-muted-foreground break-words">
+                  <TableCell class="min-w-[140px] px-4 py-3 font-medium break-words">{{ item.username }}</TableCell>
+                  <TableCell class="min-w-[160px] px-4 py-3 text-xs text-muted-foreground break-words">
                     <span v-if="item.roles && item.roles.length">{{ item.roles.map((role) => stripRolePrefix(role)).join(', ') }}</span>
                     <span v-else>{{ text.adminRolesEmpty }}</span>
                   </TableCell>
-                  <TableCell class="min-w-[120px] px-4 py-3 text-xs">
+                  <TableCell class="min-w-[90px] px-4 py-3 text-xs">
                     <span :class="item.is_super ? 'text-emerald-600' : 'text-muted-foreground'">{{ item.is_super ? text.yes : text.no }}</span>
                   </TableCell>
-                  <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground">{{ formatDateTime(item.created_at) }}</TableCell>
-                  <TableCell class="min-w-[180px] px-4 py-3 text-xs text-muted-foreground">{{ formatDateTime(item.last_login_at) }}</TableCell>
-                  <TableCell class="min-w-[220px] px-4 py-3">
+                  <TableCell class="min-w-[140px] px-4 py-3 text-xs text-muted-foreground">{{ formatDateTime(item.created_at) }}</TableCell>
+                  <TableCell class="min-w-[140px] px-4 py-3 text-xs text-muted-foreground">{{ formatDateTime(item.last_login_at) }}</TableCell>
+                  <TableCell class="min-w-[160px] px-4 py-3">
                     <div class="flex flex-wrap items-center justify-end gap-2">
                       <Button size="sm" variant="outline" @click="pickAdminForRoles(item)">
                         {{ selectedAdminId === item.id ? text.adminRoleTargetSelected : text.adminSelectRoleTarget }}
