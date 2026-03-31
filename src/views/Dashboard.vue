@@ -54,6 +54,7 @@ interface DashboardOverview {
     low_stock_skus: number
     auto_available_secrets: number
     manual_available_units: number
+    total_user_balance: string
   }
   funnel: DashboardFunnel
   alerts: DashboardAlertItem[]
@@ -472,6 +473,15 @@ onMounted(() => {
         <CardContent>
           <div class="text-2xl font-semibold">{{ overview?.kpi.new_users ?? 0 }}</div>
           <div class="mt-1 text-xs text-muted-foreground">{{ t('admin.dashboard.kpi.activeProducts') }}: {{ overview?.kpi.active_products ?? 0 }}</div>
+        </CardContent>
+      </Card>
+
+      <Card class="min-w-0">
+        <CardHeader class="pb-2">
+          <CardTitle class="text-xs font-medium text-muted-foreground">{{ t('admin.dashboard.kpi.totalUserBalance') }}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div class="text-2xl font-semibold">{{ formatMoney(overview?.kpi.total_user_balance, overview?.currency) }}</div>
         </CardContent>
       </Card>
 
