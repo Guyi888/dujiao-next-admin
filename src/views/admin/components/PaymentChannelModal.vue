@@ -2,7 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { adminAPI } from '@/api/admin'
-import { getImageUrl } from '@/utils/image'
+import MediaPicker from '@/components/admin/MediaPicker.vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -40,38 +40,6 @@ const form = reactive({
   sort_order: 10,
 })
 
-const iconFileInput = ref<HTMLInputElement | null>(null)
-const iconUploading = ref(false)
-
-const triggerIconInput = () => iconFileInput.value?.click()
-
-const handleIconFileChange = (e: Event) => {
-  const file = (e.target as HTMLInputElement).files?.[0]
-  if (file) uploadIcon(file)
-}
-
-const handleIconDrop = (e: DragEvent) => {
-  const file = e.dataTransfer?.files[0]
-  if (file && file.type.startsWith('image/')) uploadIcon(file)
-}
-
-const uploadIcon = async (file: File) => {
-  iconUploading.value = true
-  const formData = new FormData()
-  formData.append('file', file)
-  try {
-    const res = await adminAPI.upload(formData, 'common')
-    form.icon = (res.data.data as Record<string, string>)?.url || ''
-  } catch {
-    error.value = t('admin.paymentChannels.modal.iconUploadFailed')
-  } finally {
-    iconUploading.value = false
-  }
-}
-
-const removeIcon = () => {
-  form.icon = ''
-}
 
 const epayConfig = reactive({
   epay_version: 'v2',
@@ -854,22 +822,7 @@ const closeModal = () => {
           </div>
           <div class="min-w-0">
             <label class="block text-xs font-medium text-muted-foreground mb-1.5">{{ t('admin.paymentChannels.modal.icon') }}</label>
-            <div
-              class="border border-dashed border-border rounded-lg p-3 text-center cursor-pointer relative min-h-[4rem] flex items-center justify-center"
-              @click="triggerIconInput"
-              @drop.prevent="handleIconDrop"
-              @dragover.prevent
-            >
-              <input ref="iconFileInput" type="file" class="hidden" accept="image/*" @change="handleIconFileChange" />
-              <div v-if="form.icon" class="flex items-center gap-3">
-                <img :src="getImageUrl(form.icon)" class="h-10 w-10 rounded object-contain" />
-                <button type="button" class="text-xs text-destructive hover:underline" @click.stop="removeIcon">{{ t('admin.paymentChannels.modal.iconRemove') }}</button>
-              </div>
-              <div v-else class="text-muted-foreground text-xs">{{ t('admin.paymentChannels.modal.iconUploadHint') }}</div>
-              <div v-if="iconUploading" class="absolute inset-0 bg-black/40 flex items-center justify-center rounded-lg">
-                <div class="animate-spin h-5 w-5 border-b-2 border-white rounded-full"></div>
-              </div>
-            </div>
+            <MediaPicker v-model="form.icon" scene="common" />
           </div>
           <div class="min-w-0">
             <label class="block text-xs font-medium text-muted-foreground mb-1.5">{{ t('admin.paymentChannels.modal.providerType') }}</label>

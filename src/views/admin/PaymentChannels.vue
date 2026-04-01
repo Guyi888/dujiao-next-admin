@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { adminAPI } from '@/api/admin'
 import type { AdminPaymentChannel } from '@/api/types'
+import { getImageUrl } from '@/utils/image'
 import IdCell from '@/components/IdCell.vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -268,7 +269,10 @@ watch(
               <IdCell :value="channel.id" />
             </TableCell>
             <TableCell class="min-w-[220px] px-6 py-4">
-              <div class="break-words font-medium text-foreground">{{ channel.name }}</div>
+              <div class="flex items-center gap-2">
+                <img v-if="channel.icon" :src="getImageUrl(channel.icon)" class="h-6 w-6 shrink-0 rounded object-contain" />
+                <span class="break-words font-medium text-foreground">{{ channel.name }}</span>
+              </div>
             </TableCell>
             <TableCell class="min-w-[220px] px-6 py-4 text-xs text-muted-foreground">
               <div class="break-words">{{ providerTypeLabel(channel.provider_type) }}</div>
