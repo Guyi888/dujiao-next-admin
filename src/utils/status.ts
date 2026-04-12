@@ -7,9 +7,11 @@ export const orderStatusLabel = (t: TranslateFn, status?: string) => {
     paid: t('order.status.paid'),
     fulfilling: t('order.status.fulfilling'),
     partially_delivered: t('order.status.partially_delivered'),
+    partially_refunded: t('order.status.partially_refunded'),
     delivered: t('order.status.delivered'),
     completed: t('order.status.completed'),
     canceled: t('order.status.canceled'),
+    refunded: t('order.status.refunded'),
   }
   return map[status] || status
 }
@@ -22,11 +24,15 @@ export const orderStatusClass = (status?: string) => {
       return 'text-emerald-700 border-emerald-200 bg-emerald-50'
     case 'partially_delivered':
       return 'text-orange-700 border-orange-200 bg-orange-50'
+    case 'partially_refunded':
+      return 'text-orange-700 border-orange-200 bg-orange-50'
     case 'delivered':
     case 'completed':
       return 'text-slate-800 border-slate-200 bg-slate-50'
     case 'canceled':
       return 'text-slate-500 border-slate-200 bg-slate-50'
+    case 'refunded':
+      return 'text-blue-700 border-blue-200 bg-blue-50'
     default:
       return 'text-slate-600 border-slate-200 bg-slate-50'
   }

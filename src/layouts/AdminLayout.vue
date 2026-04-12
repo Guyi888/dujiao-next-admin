@@ -156,6 +156,12 @@ const navGroups = computed<NavGroup[]>(() => {
           icon: ListOrdered,
           permission: 'GET:/admin/orders',
         },
+        {
+          label: t('admin.navItems.orderRefunds'),
+          to: '/order-refunds',
+          icon: ReceiptText,
+          permission: 'GET:/admin/order-refunds',
+        },
       ],
     },
     {

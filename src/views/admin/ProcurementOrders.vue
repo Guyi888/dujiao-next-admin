@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n'
 import { useDebounceFn } from '@vueuse/core'
 import { adminAPI } from '@/api/admin'
 import type { AdminProcurementOrder, AdminSiteConnection } from '@/api/types'
-import { getLocalizedText, formatMoney } from '@/utils/format'
+import { getLocalizedText, formatMoney, hasPositiveAmount } from '@/utils/format'
+import { orderStatusLabel } from '@/utils/status'
 import TableSkeleton from '@/components/TableSkeleton.vue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -16,14 +17,25 @@ import { notifyError, notifySuccess } from '@/utils/notify'
 interface LocalOrderItem {
   title: Record<string, string>
   sku_snapshot?: { sku_code?: string }
-  quantity: number
+  quantity: number | string
+  cost_price?: number | string
   total_amount: number | string
 }
 
 interface LocalOrder {
   status: string
   user_email?: string
+  refunded_amount?: number | string
   items?: LocalOrderItem[]
+}
+
+interface UpstreamRefundRecordRow {
+  id: string
+  type: string
+  amount: string
+  currency: string
+  remark: string
+  createdAt: string
 }
 
 type ProcurementOrderWithRelations = AdminProcurementOrder & {
@@ -84,7 +96,9 @@ const statusOptions = [
   { value: 'accepted', key: 'procurement.status.accepted' },
   { value: 'rejected', key: 'procurement.status.rejected' },
   { value: 'failed', key: 'procurement.status.failed' },
+  { value: 'partially_refunded', key: 'procurement.status.partially_refunded' },
   { value: 'fulfilled', key: 'procurement.status.fulfilled' },
+  { value: 'refunded', key: 'procurement.status.refunded' },
   { value: 'canceled', key: 'procurement.status.canceled' },
 ]
 
@@ -195,7 +209,7 @@ const handleRetry = async (order: ProcurementOrderWithRelations) => {
 const handleCancel = async (order: ProcurementOrderWithRelations) => {
   const confirmed = await confirmAction({
     description: t('procurement.actions.cancelConfirm', { id: order.id }),
-    confirmText: t('procurement.actions.cancel'),
+    confirmText: t('procurement.actions.cancelOrder'),
     variant: 'destructive',
   })
   if (!confirmed) return
@@ -221,8 +235,10 @@ const statusBadgeClass = (status: string) => {
     case 'accepted': return 'text-sky-700 border-sky-200 bg-sky-50'
     case 'rejected': return 'text-red-700 border-red-200 bg-red-50'
     case 'failed': return 'text-red-700 border-red-200 bg-red-50'
+    case 'partially_refunded': return 'text-orange-700 border-orange-200 bg-orange-50'
     case 'fulfilled': return 'text-emerald-700 border-emerald-200 bg-emerald-50'
     case 'completed': return 'text-emerald-700 border-emerald-200 bg-emerald-50'
+    case 'refunded': return 'text-blue-700 border-blue-200 bg-blue-50'
     case 'canceled': return 'text-muted-foreground border-border bg-muted/30'
     default: return 'text-muted-foreground border-border bg-muted/30'
   }
@@ -234,6 +250,7 @@ const statusIcon = (status: string) => {
     case 'accepted': return 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' // check circle
     case 'rejected': case 'failed': return 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' // exclamation
     case 'fulfilled': case 'completed': return 'M5 13l4 4L19 7' // check
+    case 'partially_refunded': case 'refunded': return 'M3 10h12M3 14h9m7-9v14l-3-2-3 2V5a1 1 0 011-1h4a1 1 0 011 1z' // refund
     case 'canceled': return 'M6 18L18 6M6 6l12 12' // x
     default: return 'M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01'
   }
@@ -275,19 +292,69 @@ const getExchangeRate = (order: ProcurementOrderWithRelations) => {
   return rate && rate > 0 ? rate : 1
 }
 
+const parseMoneyValue = (value: unknown) => {
+  if (value === null || value === undefined) return 0
+  const num = Number(value)
+  return Number.isFinite(num) ? num : 0
+}
+
+const upstreamRefundInLocal = (order: ProcurementOrderWithRelations) => parseMoneyValue(order.upstream_refunded_amount) * getExchangeRate(order)
+const localRefundAmount = (order: ProcurementOrderWithRelations) => parseMoneyValue(order.local_order?.refunded_amount)
+
+const localCostValue = (order: ProcurementOrderWithRelations) => {
+  const items = order.local_order?.items || []
+  return items.reduce((sum, item) => {
+    const qty = parseMoneyValue(item.quantity)
+    const costPrice = parseMoneyValue(item.cost_price)
+    return sum + (costPrice * qty)
+  }, 0)
+}
+
 const profitAmount = (order: ProcurementOrderWithRelations) => {
-  const sell = parseFloat(String(order.local_sell_amount || 0))
-  const cost = parseFloat(String(order.upstream_amount || 0))
-  if (!cost || !sell) return null
-  const localCost = cost * getExchangeRate(order)
-  return (sell - localCost).toFixed(2)
+  const sell = parseMoneyValue(order.local_sell_amount)
+  const upstreamRefund = upstreamRefundInLocal(order)
+  const localCost = localCostValue(order)
+  const localRefund = localRefundAmount(order)
+  const hasFinancialData = [sell, upstreamRefund, localCost, localRefund].some((v) => Math.abs(v) > 0.000001)
+  if (!hasFinancialData) return null
+  return (sell + upstreamRefund - localCost - localRefund).toFixed(2)
 }
 
 const localCostAmount = (order: ProcurementOrderWithRelations) => {
-  const cost = parseFloat(String(order.upstream_amount || 0))
-  if (!cost) return null
-  return (cost * getExchangeRate(order)).toFixed(2)
+  const cost = localCostValue(order)
+  if (Math.abs(cost) <= 0.000001) return null
+  return cost.toFixed(2)
 }
+
+const normalizeText = (value: unknown) => (value === null || value === undefined ? '' : String(value).trim())
+
+const normalizeUpstreamRefundRecords = (order: ProcurementOrderWithRelations | null): UpstreamRefundRecordRow[] => {
+  if (!order || !Array.isArray(order.upstream_refund_records)) return []
+  return order.upstream_refund_records.map((raw, index) => {
+    const record = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>
+    return {
+      id: String(index + 1),
+      type: normalizeText(record.type),
+      amount: normalizeText(record.amount),
+      currency: normalizeText(record.currency),
+      remark: normalizeText(record.remark),
+      createdAt: normalizeText(record.created_at),
+    }
+  })
+}
+
+const detailUpstreamRefundRecords = computed(() => normalizeUpstreamRefundRecords(detailOrder.value))
+
+const hasUpstreamRefundAmount = computed(() => hasPositiveAmount(detailOrder.value?.upstream_refunded_amount as string | number | undefined))
+const hasLocalRefundAmount = computed(() => hasPositiveAmount(detailOrder.value?.local_order?.refunded_amount))
+
+const getUpstreamRefundTypeLabel = (type: string) => {
+  const normalized = type.trim().toLowerCase()
+  if (normalized === 'manual') return t('admin.orderRefunds.typeManual')
+  if (normalized === 'wallet') return t('admin.orderRefunds.typeWallet')
+  return normalized || '-'
+}
+const getLocalOrderStatusLabel = (status?: string) => orderStatusLabel(t, status)
 
 const profitClass = (order: ProcurementOrderWithRelations) => {
   const p = profitAmount(order)
@@ -475,7 +542,7 @@ onMounted(() => {
               <span class="text-muted-foreground">{{ t('procurement.columns.upstreamAmount') }}</span>
               <div class="mt-0.5 font-medium text-foreground">{{ order.upstream_amount && String(order.upstream_amount) !== '0.00' ? formatMoney(order.upstream_amount, order.upstream_currency || order.currency) : '-' }}</div>
             </div>
-            <div v-if="getExchangeRate(order) !== 1 && localCostAmount(order) !== null">
+            <div v-if="localCostAmount(order) !== null">
               <span class="text-muted-foreground">{{ t('procurement.columns.localCost') }}</span>
               <div class="mt-0.5 font-medium text-foreground">{{ formatMoney(localCostAmount(order)!, order.currency) }}</div>
             </div>
@@ -524,7 +591,11 @@ onMounted(() => {
 
     <!-- Detail Dialog -->
     <Dialog v-model:open="showDetail" @update:open="(value: boolean) => { if (!value) closeDetail() }">
-      <DialogScrollContent class="w-[calc(100vw-1rem)] max-w-3xl p-4 sm:p-6" @interact-outside="(e: Event) => e.preventDefault()">
+      <DialogScrollContent
+        class="w-[calc(100vw-1rem)] max-w-3xl p-4 sm:p-6"
+        @interact-outside="(e: Event) => e.preventDefault()"
+        @open-auto-focus="(e: Event) => e.preventDefault()"
+      >
         <DialogHeader>
           <DialogTitle class="flex flex-wrap items-center gap-2">
             {{ t('procurement.detail.title') }}
@@ -565,10 +636,6 @@ onMounted(() => {
                 <div class="mt-1 break-all text-sm font-mono font-medium">{{ detailOrder.upstream_order_no || '-' }}</div>
               </div>
               <div>
-                <div class="text-xs text-muted-foreground">{{ t('procurement.detail.upstreamOrderId') }}</div>
-                <div class="mt-1 break-all text-sm font-mono">{{ detailOrder.upstream_order_id || '-' }}</div>
-              </div>
-              <div>
                 <div class="text-xs text-muted-foreground">{{ t('procurement.columns.connection') }}</div>
                 <div class="mt-1 text-sm font-medium">{{ detailOrder.connection?.name || detailOrder.connection_id || '-' }}</div>
               </div>
@@ -588,30 +655,72 @@ onMounted(() => {
             <div class="border-b border-border bg-muted/30 px-4 py-2 text-xs font-semibold text-muted-foreground uppercase">
               {{ t('procurement.detail.financial') }}
             </div>
-            <div class="grid grid-cols-1 divide-y divide-border" :class="getExchangeRate(detailOrder) !== 1 ? 'sm:grid-cols-4 sm:divide-x sm:divide-y-0' : 'sm:grid-cols-3 sm:divide-x sm:divide-y-0'">
-              <div class="p-4 text-center">
+            <div class="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 xl:grid-cols-3">
+              <div class="rounded-md border border-border bg-muted/20 p-4 text-center">
                 <div class="text-xs text-muted-foreground">{{ t('procurement.columns.localSellAmount') }}</div>
                 <div class="mt-1 text-lg font-bold">{{ formatMoney(detailOrder.local_sell_amount, detailOrder.currency) }}</div>
               </div>
-              <div class="p-4 text-center">
+              <div class="rounded-md border border-border bg-muted/20 p-4 text-center">
                 <div class="text-xs text-muted-foreground">{{ t('procurement.columns.upstreamAmount') }}</div>
                 <div class="mt-1 text-lg font-bold">
                   {{ detailOrder.upstream_amount && String(detailOrder.upstream_amount) !== '0.00' ? formatMoney(detailOrder.upstream_amount, detailOrder.upstream_currency || detailOrder.currency) : '-' }}
                 </div>
               </div>
-              <div v-if="getExchangeRate(detailOrder) !== 1" class="p-4 text-center">
+              <div v-if="localCostAmount(detailOrder) !== null" class="rounded-md border border-border bg-muted/20 p-4 text-center">
                 <div class="text-xs text-muted-foreground">{{ t('procurement.columns.localCost') }}</div>
                 <div class="mt-1 text-lg font-bold">
                   {{ localCostAmount(detailOrder) !== null ? formatMoney(localCostAmount(detailOrder)!, detailOrder.currency) : '-' }}
                 </div>
-                <div class="mt-0.5 text-xs text-muted-foreground">{{ t('procurement.detail.exchangeRate') }}: {{ getExchangeRate(detailOrder) }}</div>
               </div>
-              <div class="p-4 text-center">
+              <div v-if="hasUpstreamRefundAmount" class="rounded-md border border-border bg-muted/20 p-4 text-center">
+                <div class="text-xs text-muted-foreground">{{ t('procurement.detail.upstreamRefunded') }}</div>
+                <div class="mt-1 text-lg font-bold text-rose-600">
+                  {{ formatMoney(detailOrder.upstream_refunded_amount, detailOrder.upstream_currency || detailOrder.currency) }}
+                </div>
+              </div>
+              <div v-if="hasLocalRefundAmount" class="rounded-md border border-border bg-muted/20 p-4 text-center">
+                <div class="text-xs text-muted-foreground">{{ t('procurement.detail.localRefunded') }}</div>
+                <div class="mt-1 text-lg font-bold text-rose-600">
+                  {{ formatMoney(detailOrder.local_order?.refunded_amount, detailOrder.currency) }}
+                </div>
+              </div>
+              <div class="rounded-md border border-border bg-muted/20 p-4 text-center">
                 <div class="text-xs text-muted-foreground">{{ t('procurement.detail.profit') }}</div>
                 <div class="mt-1 text-lg font-bold" :class="profitClass(detailOrder)">
                   {{ profitAmount(detailOrder) !== null ? formatMoney(profitAmount(detailOrder)!, detailOrder.currency) : '-' }}
                 </div>
               </div>
+            </div>
+          </div>
+
+          <!-- Upstream Refund Records -->
+          <div v-if="detailUpstreamRefundRecords.length > 0" class="rounded-lg border border-border">
+            <div class="border-b border-border bg-muted/30 px-4 py-2 text-xs font-semibold text-muted-foreground uppercase">
+              {{ t('procurement.detail.upstreamRefundRecords') }}
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-border text-sm">
+                <thead class="bg-muted/20 text-xs text-muted-foreground">
+                  <tr>
+                    <th class="px-4 py-2 text-left">ID</th>
+                    <th class="px-4 py-2 text-left">{{ t('admin.orderRefunds.table.refundType') }}</th>
+                    <th class="px-4 py-2 text-left">{{ t('admin.orderRefunds.table.amount') }}</th>
+                    <th class="px-4 py-2 text-left">{{ t('admin.orderRefunds.table.createdAt') }}</th>
+                    <th class="px-4 py-2 text-left">{{ t('admin.orderRefunds.detailRemark') }}</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                  <tr v-for="record in detailUpstreamRefundRecords" :key="record.id">
+                    <td class="px-4 py-2 font-mono">{{ record.id }}</td>
+                    <td class="px-4 py-2">{{ getUpstreamRefundTypeLabel(record.type) }}</td>
+                    <td class="px-4 py-2 font-mono">
+                      {{ record.amount ? formatMoney(record.amount, record.currency || detailOrder.upstream_currency || detailOrder.currency) : '-' }}
+                    </td>
+                    <td class="px-4 py-2">{{ formatTime(record.createdAt) }}</td>
+                    <td class="px-4 py-2">{{ record.remark || '-' }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -634,7 +743,7 @@ onMounted(() => {
                 </div>
               </div>
               <div class="flex flex-col gap-1 border-t border-border pt-1 text-xs text-muted-foreground sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-                <span>{{ t('procurement.detail.orderStatus') }}: {{ detailOrder.local_order.status }}</span>
+                <span>{{ t('procurement.detail.orderStatus') }}: {{ getLocalOrderStatusLabel(detailOrder.local_order.status) }}</span>
                 <span v-if="detailOrder.local_order.user_email" class="break-all">{{ detailOrder.local_order.user_email }}</span>
               </div>
             </div>
@@ -709,7 +818,7 @@ onMounted(() => {
               :disabled="cancelingId === detailOrder.id"
               @click="handleCancel(detailOrder)"
             >
-              {{ t('procurement.actions.cancel') }}
+              {{ t('procurement.actions.cancelOrder') }}
             </Button>
             <Button variant="outline" class="w-full sm:w-auto" @click="closeDetail">{{ t('admin.common.cancel') }}</Button>
           </div>

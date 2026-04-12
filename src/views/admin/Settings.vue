@@ -272,6 +272,8 @@ const orderEmailTemplateData = reactive({
     delivered: createOrderEmailSceneTemplate(),
     delivered_with_content: createOrderEmailSceneTemplate(),
     canceled: createOrderEmailSceneTemplate(),
+    refunded: createOrderEmailSceneTemplate(),
+    partially_refunded: createOrderEmailSceneTemplate(),
   },
   guest_tip: { 'zh-CN': '', 'zh-TW': '', 'en-US': '' } as Record<typeof supportedLanguages[number], string>,
 })
@@ -613,7 +615,7 @@ const fetchSettings = async () => {
       const tmplData = orderEmailTmplRes.data.data as Record<string, unknown>
       const templates = tmplData.templates as Record<string, unknown> | undefined
       if (templates) {
-        const sceneKeys = ['default', 'paid', 'delivered', 'delivered_with_content', 'canceled'] as const
+        const sceneKeys = ['default', 'paid', 'delivered', 'delivered_with_content', 'canceled', 'refunded', 'partially_refunded'] as const
         sceneKeys.forEach((key) => {
           const scene = templates[key] as Record<string, unknown> | undefined
           if (scene) {

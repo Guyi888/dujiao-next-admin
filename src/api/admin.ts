@@ -158,6 +158,11 @@ export interface AdminRefundToWalletPayload {
   remark?: string
 }
 
+export interface AdminManualRefundPayload {
+  amount: string
+  remark?: string
+}
+
 export interface AdminBatchCardSecretStatusPayload {
   ids?: number[]
   batch_id?: number
@@ -335,6 +340,10 @@ export const adminAPI = {
   payAffiliateWithdraw: (id: number) => api.post(`/admin/affiliates/withdraws/${id}/pay`, {}),
   refundOrderToWallet: (id: number, data: AdminRefundToWalletPayload) =>
     api.post(`/admin/orders/${id}/refund-to-wallet`, data),
+  manualRefundOrder: (id: number, data: AdminManualRefundPayload) =>
+    api.post(`/admin/orders/${id}/manual-refund`, data),
+  getOrderRefunds: (params?: Record<string, unknown>) => api.get('/admin/order-refunds', { params }),
+  getOrderRefund: (id: number) => api.get(`/admin/order-refunds/${id}`),
   createCoupon: (data: Partial<AdminCoupon>) => api.post('/admin/coupons', data),
   getCoupons: (params?: Record<string, unknown>) => api.get('/admin/coupons', { params }),
   updateCoupon: (id: number, data: Partial<AdminCoupon>) => api.put(`/admin/coupons/${id}`, data),

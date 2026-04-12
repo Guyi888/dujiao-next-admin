@@ -23,11 +23,13 @@ interface OrderEmailTemplateData {
     delivered: OrderEmailSceneTemplate
     delivered_with_content: OrderEmailSceneTemplate
     canceled: OrderEmailSceneTemplate
+    refunded: OrderEmailSceneTemplate
+    partially_refunded: OrderEmailSceneTemplate
   }
   guest_tip: Record<SupportedLanguage, string>
 }
 
-const sceneKeys = ['default', 'paid', 'delivered', 'delivered_with_content', 'canceled'] as const
+const sceneKeys = ['default', 'paid', 'delivered', 'delivered_with_content', 'canceled', 'refunded', 'partially_refunded'] as const
 type SceneKey = (typeof sceneKeys)[number]
 
 const props = defineProps<{
@@ -66,6 +68,8 @@ const form = reactive({
     delivered: createSceneTemplate(),
     delivered_with_content: createSceneTemplate(),
     canceled: createSceneTemplate(),
+    refunded: createSceneTemplate(),
+    partially_refunded: createSceneTemplate(),
   },
   guest_tip: { 'zh-CN': '', 'zh-TW': '', 'en-US': '' } as Record<SupportedLanguage, string>,
 })
@@ -87,6 +91,8 @@ const templateVariables = [
   { key: 'order_no', label: () => t('admin.settings.orderEmailTemplate.variableList.order_no') },
   { key: 'status', label: () => t('admin.settings.orderEmailTemplate.variableList.status') },
   { key: 'amount', label: () => t('admin.settings.orderEmailTemplate.variableList.amount') },
+  { key: 'refund_amount', label: () => t('admin.settings.orderEmailTemplate.variableList.refund_amount') },
+  { key: 'refund_reason', label: () => t('admin.settings.orderEmailTemplate.variableList.refund_reason') },
   { key: 'currency', label: () => t('admin.settings.orderEmailTemplate.variableList.currency') },
   { key: 'fulfillment_info', label: () => t('admin.settings.orderEmailTemplate.variableList.fulfillment_info') },
   { key: 'site_name', label: () => t('admin.settings.orderEmailTemplate.variableList.site_name') },

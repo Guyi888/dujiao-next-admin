@@ -443,6 +443,26 @@ export interface AdminPayment {
   provider_payload?: Record<string, unknown>
 }
 
+// --- OrderRefund ---
+export interface AdminOrderRefund {
+  id: number
+  user_id: number
+  guest_email?: string
+  guest_locale?: string
+  order_id: number
+  order_no?: string
+  type: string
+  refund_type_label?: string
+  amount: string
+  currency: string
+  remark?: string
+  items?: AdminOrderItem[]
+  user_email?: string
+  user_display_name?: string
+  created_at: string
+  updated_at: string
+}
+
 // --- User ---
 export interface AdminUser {
   id: number
@@ -529,7 +549,6 @@ export interface AdminProcurementOrder {
   connection_id: number
   local_order_id: number
   local_order_no: string
-  upstream_order_id?: string
   upstream_order_no?: string
   status: string
   upstream_amount: number
@@ -546,6 +565,8 @@ export interface AdminProcurementOrder {
   updated_at: string
   connection_name?: string
   connection?: { id: number; name: string; type?: string; base_url?: string }
+  upstream_refund_records?: Array<Record<string, unknown>>
+  upstream_refunded_amount?: string
   [key: string]: unknown
 }
 
