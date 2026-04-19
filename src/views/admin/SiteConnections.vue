@@ -408,6 +408,7 @@ onMounted(() => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="dujiao-next">dujiao-next</SelectItem>
+                  <SelectItem value="caihong">caihong（彩虹发卡）</SelectItem>
                 </SelectContent>
               </Select>
             </div>
